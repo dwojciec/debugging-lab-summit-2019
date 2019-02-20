@@ -1,0 +1,12 @@
+config:
+  renderer: markdown
+
+modules:
+  intro:
+    name: Introduction and Setup
+  kiali:
+    name: Kiali 
+  jaeger:
+    name: Jaeger 
+  squash:
+    name: Squash 
