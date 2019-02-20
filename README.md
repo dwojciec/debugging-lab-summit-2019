@@ -40,14 +40,14 @@ oc new-app osevg/workshopper --name=debug-workshop \
       -e JAVA_APP=false \
       -e OPENSHIFT_MASTER="http://127.0.0.1:8443" \
       -e APPS_SUFFIX="apps.127.0.0.1.nip.io" \
-      -e ISTIO_LAB_HOSTNAME="127.0.0.1"
+      -e DEBUG_LAB_HOSTNAME="127.0.0.1"
 
 oc expose svc/debug-workshop
 ```
 
 Replace `OPENSHIFT_MASTER` with the URL to the console of your working OpenShift
 environment (e.g.  `http://128.0.0.1:8443`), `APPS_SUFFIX` with your default
-routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `ISTIO_LAB_HOSTNAME` with
+routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `DEBUG_LAB_HOSTNAME` with
 the public hostname of your machine. These variables are used to subsitute
 values in the markdown content files.
 
@@ -69,13 +69,13 @@ docker run -p 8080:8080 -v $(pwd):/app-data \
               -e WORKSHOPS_URLS="file:///app-data/instructions/_rhsummit19.yml" \
               -e OPENSHIFT_MASTER="foo" \
               -e APPS_SUFFIX="$MY_IP.xip.io" \
-              -e ISTIO_LAB_HOSTNAME="MY_HOSTNAME" \
+              -e DEBUG_LAB_HOSTNAME="MY_HOSTNAME" \
               osevg/workshopper:latest
 ```
 
 Replace `OPENSHIFT_MASTER` with the URL to the console of your working OpenShift
 environment (e.g.  `http://128.0.0.1:8443`), `APPS_SUFFIX` with your default
-routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `ISTIO_LAB_HOSTNAME` with
+routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `DEBUG_LAB_HOSTNAME` with
 the public hostname of your machine. These variables are used to subsitute
 values in the markdown content files.
 
