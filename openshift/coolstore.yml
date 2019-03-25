@@ -984,6 +984,8 @@ items:
       spring.datasource.password=catalog
       spring.datasource.driver-class-name=org.postgresql.Driver
       spring.jpa.hibernate.ddl-auto=create
+      spring.datasource.test-on-borrow=true
+      spring.datasource.validation-query=SELECT 1
   kind: ConfigMap
   metadata:
     name: catalog
@@ -998,6 +1000,10 @@ items:
               connection-url: jdbc:postgresql://inventory-postgresql:5432/inventory
               user-name: inventory
               password: inventory
+              valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
+              validate-on-match: true
+              background-validation: false
+              exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
               min-pool-size: 1
               max-pool-size: 1
   kind: ConfigMap
