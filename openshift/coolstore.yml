@@ -96,11 +96,8 @@ items:
     resources: {}
     runPolicy: Serial
     source:
-      contextDir: catalog-spring-boot
-      git:
-        ref: implemented
-        uri: https://github.com/mcouliba/cloud-native-labs.git
-      type: Git
+      binary: {}
+      type: Binary
     strategy:
       sourceStrategy:
         from:
@@ -108,16 +105,7 @@ items:
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
       type: Source
-    triggers:
-    - github:
-        secret: 3qpGM94IFtXDkixRKZx7
-      type: GitHub
-    - generic:
-        secret: 0yI3t72SIcxzsfZfGdru
-      type: Generic
-    - type: ConfigChange
-    - imageChange:
-      type: ImageChange
+    triggers: []
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
   metadata:
@@ -138,11 +126,8 @@ items:
     resources: {}
     runPolicy: Serial
     source:
-      contextDir: gateway-vertx
-      git:
-        ref: implemented
-        uri: https://github.com/mcouliba/cloud-native-labs.git
-      type: Git
+      binary: {}
+      type: Binary
     strategy:
       sourceStrategy:
         from:
@@ -150,16 +135,7 @@ items:
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
       type: Source
-    triggers:
-    - github:
-        secret: 3qpGM94IFtXDkixRKZx7
-      type: GitHub
-    - generic:
-        secret: 0yI3t72SIcxzsfZfGdru
-      type: Generic
-    - type: ConfigChange
-    - imageChange:
-      type: ImageChange
+    triggers: []
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
   metadata:
@@ -180,11 +156,8 @@ items:
     resources: {}
     runPolicy: Serial
     source:
-      contextDir: inventory-thorntail
-      git:
-        ref: implemented
-        uri: https://github.com/mcouliba/cloud-native-labs.git
-      type: Git
+      binary: {}
+      type: Binary
     strategy:
       sourceStrategy:
         from:
@@ -192,16 +165,7 @@ items:
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
       type: Source
-    triggers:
-    - github:
-        secret: 3qpGM94IFtXDkixRKZx7
-      type: GitHub
-    - generic:
-        secret: 0yI3t72SIcxzsfZfGdru
-      type: Generic
-    - type: ConfigChange
-    - imageChange:
-      type: ImageChange
+    triggers: []
 - apiVersion: build.openshift.io/v1
   kind: BuildConfig
   metadata:
@@ -221,11 +185,8 @@ items:
     resources: {}
     runPolicy: Serial
     source:
-      contextDir: web-nodejs
-      git:
-        ref: implemented
-        uri: https://github.com/mcouliba/cloud-native-labs.git
-      type: Git
+      binary: {}
+      type: Binary
     strategy:
       sourceStrategy:
         from:
@@ -233,16 +194,7 @@ items:
           name: nodejs:8
           namespace: openshift
       type: Source
-    triggers:
-    - github:
-        secret: 3qpGM94IFtXDkixRKZx7
-      type: GitHub
-    - generic:
-        secret: 0yI3t72SIcxzsfZfGdru
-      type: Generic
-    - type: ConfigChange
-    - imageChange:
-      type: ImageChange
+    triggers: []
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -1046,6 +998,8 @@ items:
               connection-url: jdbc:postgresql://inventory-postgresql:5432/inventory
               user-name: inventory
               password: inventory
+              min-pool-size: 1
+              max-pool-size: 1
   kind: ConfigMap
   metadata:
     name: inventory
