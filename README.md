@@ -78,10 +78,11 @@ You can directly run Workshopper as a docker container which is specially helpfu
 docker run -p 8080:8080 -v $(pwd):/app-data \
               -e CONTENT_URL_PREFIX="file:///app-data/instructions" \
               -e WORKSHOPS_URLS="file:///app-data/instructions/_rhsummit19.yml" \
+              -e LOG_TO_STDOUT=true \
               -e OPENSHIFT_MASTER="foo" \
               -e APPS_SUFFIX="$MY_IP.xip.io" \
               -e DEBUG_LAB_HOSTNAME="MY_HOSTNAME" \
-              osevg/workshopper:latest
+              quay.io/osevg/workshopper:latest
 ```
 
 Replace `OPENSHIFT_MASTER` with the URL to the console of your working OpenShift

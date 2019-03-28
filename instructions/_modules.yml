@@ -3,7 +3,7 @@ config:
 
 modules:
   intro:
-    name: Introduction and Setup
+    name: Introduction (10 min)
   kiali:
     name: Kiali 
   jaeger:
