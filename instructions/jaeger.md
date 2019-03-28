@@ -17,8 +17,8 @@ Context BlaBlaBla
 #### 
 
 By default Istio provides tracing information for each service.
-But you can see that it is information per service but do not have links between all services.
-The reason is that we need to propagate 
+But you can see that it is information per service but do not have any relation between them.
+The reason is that we need to aggregate the trace together for the same call.
 
 #### What are you hidding?
 
