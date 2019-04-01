@@ -57,7 +57,7 @@ Click on the `{{COOLSTORE_PROJECT}}` project to be taken to the project overview
 which will list all of the routes, services, deployments, and pods that you have
 running as part of your project.
 
-Once successfully built, deployed and runned on Openshift, the *6 pods* of your application should be *all in Dark Blue* as following:
+Once successfully built, deployed and runned on Openshift, the **6 pods** of your application should be *all in Dark Blue* as following:
 
 ![oc login]({% image_path openshift-console-application.png%}){:width="500px"}
 
@@ -104,7 +104,7 @@ After you log in, click on the `Graph` link in the left navigation and enter the
 
 Even if the application *seemed* working fine, you can see from [Kiali Console]({{ KIALI_URL }}) ({{ KIALI_URL }}), there is a problem in the Gateway Service which sends a 4xx http error.
 
-![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="400px"}
+![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="300px"}
 
 Please open the Javascript Console from your browser, and you will find a 404 error when calling the `gateway/api/cart` API.
 
@@ -114,16 +114,32 @@ Indeed, when you check the APIs exposed by the gateway, you cannot find any `/ap
 
 Let's fix it!!
 
-#### Adding the Cart Service
+#### Build and deploy the Quarkus microservice, the Cart Service
+
+[Quarkus](https://quarkus.io/) is a Kubernetes Native Java stack tailored for GraalVM & OpenJDK HotSpot, crafted from the best of breed Java libraries and standards.
+
+* Architectured for running in serverless and container environments like Knative and OpenShift. 
+* Designed around a **container first philosophy**, what this means in real terms is that Quarkus is optimised for low memory usage and fast startup times.
+
+We already compiled the Cart Service application to a native executable called `cart-1.0-SNAPSHOT-runner`. You can find in the `cart-quarkus` project under the `src/target`folder. It improves the startup time of the `Cart Service`, and produces a minimal disk footprint. The executable would have everything to run the application including the "JVM" and the application.
+
+In this chapter, you will focus on creating a Docker image using the produced native executable.
+
+![Quarkus - Container]({% image_path containerization-process.png %}){:width="700px"}
+
+> If you want, take a moment to examine the source code of the Cart Service implemented with [Quarkus](https://quarkus.io/).
+> You can find it under the package `com.redhat.cloudnative` in the `src/main/java` directory of the `cart-quarkus` project.
+
+Execute the following commands in order to leverage the build mechanism of OpenShift
 
 ~~~bash
 # To build the image on OpenShift
-$ oc new-build --binary --name=cart -l app=cart
+$ oc new-build --binary --name=cart -lapp=cart
 $ oc patch bc/cart -p '{"spec":{"strategy":{"dockerStrategy":{"dockerfilePath":"src/main/docker/Dockerfile"}}}}'
-$ oc start-build cart --from-dir labs/cart-quarkus --follow
+$ oc start-build cart --from-dir /projects/labs/cart-quarkus --follow
 
 # To instantiate the image
-$ oc new-app --image-stream=cart:latest -l app=cart,version=1.0
+$ oc new-app --image-stream=cart:latest -lapp=cart,version=v1.0
 
 # To configure Catalog Service Deployment
 $ oc rollout pause dc/cart
@@ -135,20 +151,70 @@ $ oc rollout resume dc/cart
 $ oc expose svc cart
 ~~~
 
-![Openshift Console Cart]({% image_path console-cart.png %}){:width="700px"}
+![Openshift Console Cart]({% image_path console-cart.png %}){:width="500px"}
 
-#### Updating Gateway Service
+You need to see that!!! Access to the log of the `Cart Service` pod and admire its amazing fast boot time!!
+
+~~~bash
+2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.009s. Listening on: http://0.0.0.0:8080 
+2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb, smallrye-rest-client]
+2019-04-01 20:17:08,790 INFO  [com.red.clo.ser.ShoppingCartService] (XNIO-1 task-1) Using local cache for cart data
+~~~ 
+
+**AND YES, IT'S A JAVA APPLICATION!**
+
+You can test the `Cart Service` is accessible via {{CART_ROUTE_HOST}} and click on `Test it`.
+
+![Cart Service]({% image_path cart-service.png %}){:width="500px"}
+
+#### Update Gateway Service
+
+Previously, we deployed the `Cart Service`. Now, you have to take it in account in the `Gateway Service`.
+Edit the `src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java` class as following:
+
+First, add the WebClient attribute `cart` in the class `GatewayVerticle`
 
 ~~~java
-router.get("/api/cart/:cardId").handler(this::getCartHandler);
+    private WebClient catalog;
+    private WebClient inventory;
+    // Cart Attribute
+    private WebClient cart; 
+~~~
 
-// Cart lookup
+Then, define the route `/api/cart/:cardId` in the `start()` method
+
+~~~java
+        router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
+        router.get("/api/products").handler(this::products);
+        // Cart Route
+        router.get("/api/cart/:cardId").handler(this::getCartHandler);
+~~~
+
+Next, replace the `ServiceDiscovery.create` as following
+
+~~~java
+        ServiceDiscovery.create(vertx, discovery -> {
+            // Catalog lookup
+            Single<WebClient> catalogDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
+                    rec -> rec.getName().equals("catalog"))
+                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                            .setDefaultHost(System.getProperty("catalog.api.host", "localhost"))
+                            .setDefaultPort(Integer.getInteger("catalog.api.port", 9000))));
+
+            // Inventory lookup
+            Single<WebClient> inventoryDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
+                    rec -> rec.getName().equals("inventory"))
+                    .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
+                            .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
+                            .setDefaultPort(Integer.getInteger("inventory.api.port", 9001))));
+
+            // Cart lookup
             Single<WebClient> cartDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
                     rec -> rec.getName().equals("cart"))
                     .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
                             .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
                             .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
-                            
+
             // Zip all 3 requests
             Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest, 
                 (cg, i, ct) -> {
@@ -160,29 +226,33 @@ router.get("/api/cart/:cardId").handler(this::getCartHandler);
                         .requestHandler(router::accept)
                         .listen(Integer.getInteger("http.port", 8080));
                 }).subscribe();
+        });
+~~~
 
-private void getCartHandler(RoutingContext rc) {
+Finally, add the `getCartHandler` method in the `GatewayVerticle` class.
+
+~~~java
+    private void getCartHandler(RoutingContext rc) {
         String cardId = rc.request().getParam("cardId");
         
-        // Retrieve catalog
-        TracingInterceptor.propagate(cart, rc)
-            .get("/api/cart/" + cardId)
-            .as(BodyCodec.jsonObject())
-            .rxSend()
-            .subscribe(
-                resp -> {
-                    if (resp.statusCode() != 200) {
-                        new RuntimeException("Invalid response from the cart: " + resp.statusCode());
-                    }
-                    rc.response().end(Json.encodePrettily(resp.body()));
-                },
-                error -> rc.response().end(new JsonObject().put("error", error.getMessage()).toString())
-            );
-    }
+        // Retrieve cart
+        cart
+        .get("/api/cart/" + cardId)
+        .as(BodyCodec.jsonObject())
+        .rxSend()
+        .subscribe(
+            resp -> {
+                if (resp.statusCode() != 200) {
+                    new RuntimeException("Invalid response from the cart: " + resp.statusCode());
+                }
+                rc.response().end(Json.encodePrettily(resp.body()));
+            },
+            error -> rc.response().end(new JsonObject().put("error", error.getMessage()).toString())
+        );
     }
 ~~~
 
-Push the updated version
+Use the OpenShift CLI command to start a new build and deployment for the update `Gateway Service`:
 
 ~~~shell
 $ oc start-build gateway-s2i --from-dir labs/gateway-vertx/ --follow
