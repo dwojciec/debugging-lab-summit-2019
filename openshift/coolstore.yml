@@ -336,7 +336,7 @@ items:
         labels:
           app: catalog
           name: catalog-postgresql
-          version: v1.0
+          version: database-v1.0
       spec:
         containers:
         - env:
@@ -676,6 +676,7 @@ items:
         labels:
           app: inventory
           name: inventory-postgresql
+          version: database-v1.0
       spec:
         containers:
         - env:
@@ -781,6 +782,7 @@ items:
       metadata:
         annotations:
           openshift.io/generated-by: OpenShiftNewApp
+          sidecar.istio.io/inject: "true"
         labels:
           app: web
           deploymentconfig: web

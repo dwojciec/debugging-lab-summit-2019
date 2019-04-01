@@ -88,7 +88,7 @@ First, you need to access to Kiali.
 Launch a browser and navigate to [Kiali Console]({{ KIALI_URL }}) ({{ KIALI_URL }}). 
 You should see the Kiali console login screen.
 
-![Kiali- Log In]({% image_path kiali-login.png %}){:width="500px"}
+![Kiali - Log In]({% image_path kiali-login.png %}){:width="500px"}
 
 Log in to the Kiali console as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
 
@@ -98,11 +98,14 @@ After you log in, click on the `Graph` link in the left navigation and enter the
  * Display: check `Traffic Animation`
  * Fetching: `Last min`
 
-![Kiali- Graph]({% image_path kiali-graph.png %}){:width="700px"}
+![Kiali - Graph]({% image_path kiali-graph.png %}){:width="700px"}
 
  This page shows a graph with all the microservices, connected by the requests going through them. On this page, you can see how the services interact with each other.
 
-Even if the application *seemed* working fine, you can see there is a problem in the Gateway Service, inbound requests.
+Even if the application *seemed* working fine, you can see from [Kiali Console]({{ KIALI_URL }}) ({{ KIALI_URL }}), there is a problem in the Gateway Service which sends a 4xx http error.
+
+![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="400px"}
+
 Please open the Javascript Console from your browser, and you will find a 404 error when calling the `gateway/api/cart` API.
 
 ![Gateway Error]({% image_path gateway-cart-missing.png %}){:width="700px"}
