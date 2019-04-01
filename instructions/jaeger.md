@@ -4,6 +4,8 @@ Context BlaBlaBla
 
 #### What is Jaeger?
 
+![Jaeger]({% image_path jaeger-logo.png %}){:width="300px"}
+
 [Jaeger Tracing](https://www.jaegertracing.io), inspired by Dapper and OpenZipkin, is a distributed tracing system released as open source by Uber Technologies. It is used for monitoring and troubleshooting microservices-based distributed systems, including:
 
 * Distributed context propagation
@@ -14,13 +16,7 @@ Context BlaBlaBla
 
 [Kiali](https://www.kiali.io) includes [Jaeger Tracing](https://www.jaegertracing.io) to provide distributed tracing out of the box.
 
-#### 
-
-By default Istio provides tracing information for each service.
-But you can see that it is information per service but do not have any relation between them.
-The reason is that we need to aggregate the trace together for the same call.
-
-#### What are you hidding?
+#### What are you hidding, Mr/Mrs *Application*?
 
 From the [Kiali Console]({{ KIALI_URL }}), click on the `Distributed Tracing` link in the left navigation and enter the following configuration:
 
@@ -28,13 +24,118 @@ From the [Kiali Console]({{ KIALI_URL }}), click on the `Distributed Tracing` li
  * Select a Service: `gateway`
  * Then click on the **magnifying glass** on the right
 
-![Jaeger - Traces View]({% image_path jaeger-trace-delay-view.png %}){:width="700px"}
+![Jaeger - Traces View]({% image_path jaeger-trace-2spans-view.png %}){:width="700px"}
 
-You see all the traces containing Gateway Service.
-On the left hand side of each traces, you have information like the duration.
+By default, Service Mesh automatically sends collected tracing data to Jaeger, so that we are able to only see single trace (one-to-one service call).
+
+* 1 single trace for `Gateway Service -> Catalog Service`
+* 7 single traces for `Gateway Service -> Inventory Service`
+
+Distributed Tracing involves propagating the tracing context from service to service by sending certain incoming HTTP headers downstream to outbound requests. To do this, services need some hints to tie together the entire trace.
+They need to propagate the appropriate HTTP headers so that when the proxies send span information, the spans can be correlated correctly into a single trace.
+
+Let's enable Distributed Tracing from the `Gateway Service`.
+
+#### Enabling Distributed Tracing
+
+First, create a new class `TracingInterceptor` class in the `com.redhat.cloudnative.gateway` package in the `src` directory as following
+
+~~~java
+package com.redhat.cloudnative.gateway;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.vertx.core.Handler;
+import io.vertx.ext.web.client.impl.WebClientInternal;
+import io.vertx.rxjava.ext.web.RoutingContext;
+import io.vertx.rxjava.ext.web.client.WebClient;
+
+public class TracingInterceptor {
+    private static final Logger LOG = LoggerFactory.getLogger(TracingInterceptor.class);
+    
+    private static final List<String> FORWARDED_HEADER_NAMES = Arrays.asList(
+        "x-request-id",
+        "x-b3-traceid",
+        "x-b3-spanid",
+        "x-b3-parentspanid",
+        "x-b3-sampled",
+        "x-b3-flags",
+        "x-ot-span-context"
+    );
+
+    private static final String X_TRACING_HEADERS = "X-Tracing-Headers";
+
+    private TracingInterceptor() {
+        // Avoid direct instantiation.
+    }
+
+    static Handler<RoutingContext> create() {
+        return rc -> {
+            Set<String> names = rc.request().headers().names();
+            Map<String, List<String>> headers = names.stream()
+                .map(String::toLowerCase)
+                .filter(FORWARDED_HEADER_NAMES::contains)
+                .collect(Collectors.toMap(
+                    Function.identity(),
+                    h -> Collections.singletonList(rc.request().getHeader(h))
+                ));
+            rc.put(X_TRACING_HEADERS, headers);
+            rc.next();
+        };
+    }
+    
+    static WebClient propagate(WebClient client, RoutingContext rc) {
+        WebClientInternal delegate = (WebClientInternal) client.getDelegate();
+        delegate.addInterceptor(ctx -> {
+            Map<String, List<String>> headers = rc.get(X_TRACING_HEADERS);
+            if (headers != null) {
+                LOG.info("Propagating header: {}", headers);
+                headers.forEach((s, l) -> l.forEach(v -> ctx.request().putHeader(s, v)));
+            }
+            ctx.next();
+        });
+        return client;
+    }
+}
+~~~
+
+Then, propagate the headers from the incoming request `Gateway Service` to any outgoing requests `Catalog Service` and `Inventory Service`. When you make downstream calls in your applications, make sure to include these headers.
+
+~~~java
+router.route()
+    .order(-1)
+    .handler(TracingInterceptor.create());
+
+TracingInterceptor.propagate(catalog, rc).get("/api/catalog")
+
+TracingInterceptor.propagate(inventory, rc).get("/api/inventory/" + product.getString("itemId"))
+
+TracingInterceptor.propagate(cart, rc).get("/api/cart/" + cardId)
+
+~~~
+
+Now check your modifiy then push the new version of the source code to OpenShift.
+
+~~~shell
+$ mvn clean package -f /projects/labs/gateway-vertx
+$ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
+~~~
+
+Go back to `Distributed Tracing` user interface from [Kiali Console]({{ KIALI_URL }}) and see the result.
+Now you have the aggreate trace for one request and it is much more better.
+On the left hand side, you have information like the duration.
 One call takes more than 400ms which you could judge as *normal* but ...
 
-Let’s click on the trace title bar.
+Let’s click on a trace title bar.
 
 ![Jaeger - Trace Detail View]({% image_path jaeger-trace-delay-detail-view.png %}){:width="700px"}
 

@@ -2,6 +2,8 @@
 
 Context BlaBlaBla
 
+![BirdBox]({% image_path birdbox.png %}){:width="300px"}
+
 #### Running the application on OpenShift
 
 ~~~shell
