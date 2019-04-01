@@ -10,7 +10,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: catalog
   spec:
     port:
@@ -30,7 +30,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: gateway
   spec:
     port:
@@ -50,7 +50,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: inventory
   spec:
     port:
@@ -83,7 +83,7 @@ items:
       app: catalog
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: catalog-s2i
   spec:
     failedBuildsHistoryLimit: 5
@@ -113,7 +113,7 @@ items:
       app: gateway
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: gateway-s2i
   spec:
     failedBuildsHistoryLimit: 5
@@ -143,7 +143,7 @@ items:
       app: inventory
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: inventory-s2i
   spec:
     failedBuildsHistoryLimit: 5
@@ -200,13 +200,13 @@ items:
   metadata:
     annotations:
       fabric8.io/iconUrl: img/icons/spring-boot.svg
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=catalog&var-version=1.0-SNAPSHOT
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=catalog&var-version=1.0
     generation: 3
     labels:
       app: catalog
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: catalog
   spec:
     replicas: 1
@@ -229,13 +229,13 @@ items:
       metadata:
         annotations:
           fabric8.io/iconUrl: img/icons/spring-boot.svg
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=catalog&var-version=1.0-SNAPSHOT
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=catalog&var-version=1.0
           sidecar.istio.io/inject: "true"
         labels:
           app: catalog
           group: com.redhat.cloudnative
           provider: fabric8
-          version: 1.0-SNAPSHOT
+          version: v1.0
       spec:
         containers:
         - args:
@@ -316,6 +316,7 @@ items:
     labels:
       app: catalog
       template: postgresql-persistent-template
+      version: v1.0
     name: catalog-postgresql
   spec:
     replicas: 1
@@ -335,6 +336,7 @@ items:
         labels:
           app: catalog
           name: catalog-postgresql
+          version: v1.0
       spec:
         containers:
         - env:
@@ -415,13 +417,13 @@ items:
   metadata:
     annotations:
       fabric8.io/iconUrl: img/icons/vertx.svg
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=gateway&var-version=1.0-SNAPSHOT
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=gateway&var-version=1.0
     generation: 33
     labels:
       app: gateway
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: gateway
   spec:
     replicas: 1
@@ -444,13 +446,13 @@ items:
       metadata:
         annotations:
           fabric8.io/iconUrl: img/icons/vertx.svg
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=gateway&var-version=1.0-SNAPSHOT
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=gateway&var-version=1.0
           sidecar.istio.io/inject: "true"
         labels:
           app: gateway
           group: com.redhat.cloudnative
           provider: fabric8
-          version: 1.0-SNAPSHOT
+          version: v1.0
       spec:
         containers:
         - args:
@@ -526,13 +528,13 @@ items:
   metadata:
     annotations:
       fabric8.io/iconUrl: img/icons/wildfly.svg
-      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=inventory&var-version=1.0-SNAPSHOT
+      fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=inventory&var-version=1.0
     generation: 5
     labels:
       app: inventory
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: inventory
   spec:
     replicas: 1
@@ -555,13 +557,13 @@ items:
       metadata:
         annotations:
           fabric8.io/iconUrl: img/icons/wildfly.svg
-          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=inventory&var-version=1.0-SNAPSHOT
+          fabric8.io/metrics-path: dashboard/file/kubernetes-pods.json/?var-project=inventory&var-version=1.0
           sidecar.istio.io/inject: "true"
         labels:
           app: inventory
           group: com.redhat.cloudnative
           provider: fabric8
-          version: 1.0-SNAPSHOT
+          version: v1.0
       spec:
         containers:
         - args:
@@ -654,6 +656,7 @@ items:
     labels:
       app: inventory
       template: postgresql-persistent-template
+      version: v1.0
     name: inventory-postgresql
   spec:
     replicas: 1
@@ -756,6 +759,7 @@ items:
     generation: 3
     labels:
       app: web
+      version: v1.0
     name: web
   spec:
     replicas: 1
@@ -780,6 +784,7 @@ items:
         labels:
           app: web
           deploymentconfig: web
+          version: v1.0
       spec:
         containers:
         - image: web:latest
@@ -839,7 +844,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: catalog
   spec:
     ports:
@@ -864,6 +869,7 @@ items:
     labels:
       app: catalog
       template: postgresql-persistent-template
+      version: v1.0
     name: catalog-postgresql
   spec:
     ports:
@@ -889,7 +895,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: gateway
   spec:
     ports:
@@ -917,7 +923,7 @@ items:
       expose: "true"
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: inventory
   spec:
     ports:
@@ -942,6 +948,7 @@ items:
     labels:
       app: inventory
       template: postgresql-persistent-template
+      version: v1.0
     name: inventory-postgresql
   spec:
     ports:
@@ -962,6 +969,7 @@ items:
       openshift.io/generated-by: OpenShiftNewApp
     labels:
       app: web
+      version: v1.0
     name: web
   spec:
     ports:
@@ -1004,8 +1012,6 @@ items:
               validate-on-match: true
               background-validation: false
               exception-sorter-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter
-              min-pool-size: 1
-              max-pool-size: 1
   kind: ConfigMap
   metadata:
     name: inventory
@@ -1024,6 +1030,7 @@ items:
     labels:
       app: catalog
       template: postgresql-persistent-template
+      version: v1.0
     name: catalog-postgresql
   type: Opaque
 - apiVersion: v1
@@ -1041,6 +1048,7 @@ items:
     labels:
       app: inventory
       template: postgresql-persistent-template
+      version: v1.0
     name: inventory-postgresql
   type: Opaque
 - apiVersion: image.openshift.io/v1
@@ -1050,7 +1058,7 @@ items:
       app: catalog
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: catalog
   spec:
     lookupPolicy:
@@ -1062,7 +1070,7 @@ items:
       app: gateway
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: gateway
   spec:
     lookupPolicy:
@@ -1074,7 +1082,7 @@ items:
       app: inventory
       group: com.redhat.cloudnative
       provider: fabric8
-      version: 1.0-SNAPSHOT
+      version: v1.0
     name: inventory
   spec:
     lookupPolicy:
@@ -1086,6 +1094,7 @@ items:
       openshift.io/generated-by: OpenShiftNewApp
     labels:
       app: web
+      version: v1.0
     name: web
   spec:
     lookupPolicy:
@@ -1098,6 +1107,7 @@ items:
     labels:
       app: catalog
       template: postgresql-persistent-template
+      version: v1.0
     name: catalog-postgresql
   spec:
     accessModes:
@@ -1113,6 +1123,7 @@ items:
     labels:
       app: inventory
       template: postgresql-persistent-template
+      version: v1.0
     name: inventory-postgresql
   spec:
     accessModes:
