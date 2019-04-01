@@ -787,7 +787,10 @@ items:
           version: v1.0
       spec:
         containers:
-        - image: web:latest
+        - env:
+          - name: COOLSTORE_GW_ENDPOINT
+            value: istio-ingressgateway-istio-system
+          image: web:latest
           imagePullPolicy: Always
           name: web
           ports:
@@ -1131,6 +1134,38 @@ items:
     resources:
       requests:
         storage: 1Gi
+- apiVersion: networking.istio.io/v1alpha3
+  kind: Gateway
+  metadata:
+    name: gateway-gateway
+  spec:
+    selector:
+      istio: ingressgateway # use Istio default gateway implementation
+    servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+      - "*"
+- apiVersion: networking.istio.io/v1alpha3
+  kind: VirtualService
+  metadata:
+    name: gateway
+  spec:
+    hosts:
+    - "*"
+    gateways:
+    - gateway-gateway
+    http:
+    - match:
+      - uri:
+          prefix: /api
+      route:
+      - destination:
+          port:
+            number: 8080
+          host: gateway
 kind: List
 metadata:
 selfLink: ""
