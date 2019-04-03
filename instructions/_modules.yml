@@ -3,10 +3,10 @@ config:
 
 modules:
   intro:
-    name: Introduction (10 min)
+    name: Introduction (?? min)
   kiali:
-    name: “Bird Box”… Not Today!! 
+    name: “Bird Box”… Not Today!! (?? min)
   jaeger:
-    name: Jaeger 
+    name: Jaeger (15 min)
   squash:
-    name: Squash 
+    name: Squash (?? min)

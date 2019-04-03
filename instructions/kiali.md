@@ -265,4 +265,4 @@ In Kiali Graph, the Gateway Service is now green and you can see the new `Cart S
 
 **CONGRATULATIONS!!!** You survive and you put off the blindfold on your own. But it is not THE END...
 
-Now let's go deeper!!
+Now,let's go deeper!!
