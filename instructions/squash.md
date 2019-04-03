@@ -1,4 +1,4 @@
-## "Mr Robot" to help me
+## “Mr Robot”, Please Help Me!
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. it's time to enter to the system running. How to enter to the secured kubernetes system, I need the power of Elliot Alderson  
 
 ![MrRobot]({% image_path mrrobot.png %}){:width="300px"}
