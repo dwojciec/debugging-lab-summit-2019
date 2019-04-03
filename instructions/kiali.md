@@ -1,7 +1,5 @@
 ## "Bird Box"... Not Today!!
 
-Context BlaBlaBla
-
 ![BirdBox]({% image_path birdbox.png %}){:width="300px"}
 
 #### Login to OpenShift
@@ -106,11 +104,11 @@ Even if the application *seemed* working fine, you can see from [Kiali Console](
 
 ![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="300px"}
 
-Please open the Javascript Console from your browser, and you will find a 404 error when calling the `gateway/api/cart` API.
+Open the Javascript Console from your browser, and you will find a 404 error when calling the `gateway/api/cart` API.
 
 ![Gateway Error]({% image_path gateway-cart-missing.png %}){:width="700px"}
 
-Indeed, when you check the APIs exposed by the gateway, you cannot find any `/api/cart` one.
+Indeed, when you check the APIs exposed by the gateway, you cannot find any `/api/cart/id-*` one.
 
 Let's fix it!!
 
@@ -130,18 +128,18 @@ In this chapter, you will focus on creating a Docker image using the produced na
 > If you want, take a moment to examine the source code of the Cart Service implemented with [Quarkus](https://quarkus.io/).
 > You can find it under the package `com.redhat.cloudnative` in the `src/main/java` directory of the `cart-quarkus` project.
 
-Execute the following commands in order to leverage the build mechanism of OpenShift
+In the *Terminal* window, execute the following commands to leverage the build mechanism of OpenShift and deploy the service:
 
 ~~~bash
 # To build the image on OpenShift
-$ oc new-build --binary --name=cart -lapp=cart
+$ oc new-build --binary --name=cart -lapp=cart,version=v1.0
 $ oc patch bc/cart -p '{"spec":{"strategy":{"dockerStrategy":{"dockerfilePath":"src/main/docker/Dockerfile"}}}}'
 $ oc start-build cart --from-dir /projects/labs/cart-quarkus --follow
 
 # To instantiate the image
 $ oc new-app --image-stream=cart:latest -lapp=cart,version=v1.0
 
-# To configure Catalog Service Deployment
+# To deploy an Istio SideCar and configure Catalog Service Deployment
 $ oc rollout pause dc/cart
 $ oc patch dc/cart --patch '{"spec": {"template": {"metadata": {"annotations": {"sidecar.istio.io/inject": "true"}}}}}'
 $ oc set env dc/cart CATALOG_ENDPOINT=http://catalog:8080
@@ -153,7 +151,8 @@ $ oc expose svc cart
 
 ![Openshift Console Cart]({% image_path console-cart.png %}){:width="500px"}
 
-You need to see that!!! Access to the log of the `Cart Service` pod and admire its amazing fast boot time!!
+**YOU HAVE TO SEE THAT!** 
+Have a look to the log of the `Cart Service` pod by cliking in the dark blue circle and then **just admire its amazing FAST BOOT TIME!**
 
 ~~~bash
 2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.009s. Listening on: http://0.0.0.0:8080 
@@ -163,7 +162,7 @@ You need to see that!!! Access to the log of the `Cart Service` pod and admire i
 
 **AND YES, IT'S A JAVA APPLICATION!**
 
-You can test the `Cart Service` is accessible via {{CART_ROUTE_HOST}} and click on `Test it`.
+You can ensure the proper functioning of the `Cart Service` by accessing to {{CART_ROUTE_HOST}} and click on `Test it`.
 
 ![Cart Service]({% image_path cart-service.png %}){:width="500px"}
 
@@ -190,7 +189,7 @@ Then, define the route `/api/cart/:cardId` in the `start()` method
         router.get("/api/cart/:cardId").handler(this::getCartHandler);
 ~~~
 
-Next, replace the `ServiceDiscovery.create` as following
+Next, replace the `ServiceDiscovery.create()` call as following
 
 ~~~java
         ServiceDiscovery.create(vertx, discovery -> {
@@ -252,14 +251,18 @@ Finally, add the `getCartHandler` method in the `GatewayVerticle` class.
     }
 ~~~
 
-Use the OpenShift CLI command to start a new build and deployment for the update `Gateway Service`:
+Check that your source code compiles then use the OpenShift CLI command to start a new build and deployment for the update `Gateway Service`:
 
 ~~~shell
-$ oc start-build gateway-s2i --from-dir labs/gateway-vertx/ --follow
+$ mvn clean package -f /projects/labs/gateway-vertx/
+$ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-You see the 404 error if fixed (Check the Javascript) and the Gateway Service in Kiali Graph is now green!!
+Once deployed, check your javascript console that the *404 error* has disappeared.
+In Kiali Graph, the Gateway Service is now green and you can see the new `Cart Service` is now present! 
 
 ![Gateway Fixed]({% image_path gateway-cart-fixed.png %}){:width="700px"}
+
+**CONGRATULATIONS!!!** You survive and you put off the blindfold on your own. But it is not THE END...
 
 Now let's go deeper!!

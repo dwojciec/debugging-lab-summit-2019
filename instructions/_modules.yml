@@ -5,7 +5,7 @@ modules:
   intro:
     name: Introduction (10 min)
   kiali:
-    name: Kiali 
+    name: “Bird Box”… Not Today!! 
   jaeger:
     name: Jaeger 
   squash:
