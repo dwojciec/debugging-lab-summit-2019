@@ -7,7 +7,7 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 ## What is SQUASH ?
 
-[Solo.io](https://solo.io/) created SQUASH for their use, to assist on the development of their own projects like Gloo, a Next Generation API Gateway, and Supergloo, a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
+[Solo.io](https://solo.io/) created [SQUASH](https://github.com/solo-io/squash) for their use, to assist on the development of their own projects like Gloo, a Next Generation API Gateway, and Supergloo, a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
 
 ###For java developers
 Let’s take a look at the flow below, which is for debugging a Java application, for example:
@@ -22,7 +22,6 @@ For Go software engineers that run and develop for Kubernetes, it’s fair to sa
 
 ![Go]({% image_path go_squash.png %}){:width="300px"}
 
-Fee free to check-out the source code at [https://github.com/solo-io/squash] (https://github.com/solo-io/squash).
 
 ## Debugging Applications
 
