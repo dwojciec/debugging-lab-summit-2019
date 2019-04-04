@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 ## "Mr Robot"  Help me
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. It's time to enter to the system running. How to penetrate to the secured kubernetes system, I need the POWER of Elliot Alderson. 
-=======
-## “Mr Robot”, Please Help Me!
-After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. it's time to enter to the system running. How to enter to the secured kubernetes system, I need the power of Elliot Alderson  
->>>>>>> 62ed3637d8406b87d57a5cc2b7271336757261ee
 
 ![MrRobot]({% image_path mrrobot.png %}){:width="300px"}
 
@@ -12,7 +7,7 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 ## What is SQUASH ?
 
-[Solo.io] (https://solo.io/) created SQUASH for their use, to assist on the development of their other projects like Gloo, a Next Generation API Gateway, and Supergloo, a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
+[Solo.io] (https://solo.io/) created SQUASH for their use, to assist on the development of their own projects like Gloo, a Next Generation API Gateway, and Supergloo, a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
 
 ###For java developers
 Let’s take a look at the flow below, which is for debugging a Java application, for example:
