@@ -28,15 +28,15 @@ From the [Kiali Console]({{ KIALI_URL }}), click on the `Distributed Tracing` li
 
 By default, Service Mesh automatically sends collected tracing data to Jaeger, so that we are able to only see single trace (one-to-one service call).
 
-* 1 single trace for `Gateway Service -> Catalog Service`
-* 7 single traces for `Gateway Service -> Inventory Service`
+* 1 single trace for `Gateway Service` -> `Catalog Service`
+* 7 single traces for `Gateway Service` -> `Inventory Service`
 
 Distributed Tracing involves propagating the tracing context from service to service by sending certain incoming HTTP headers downstream to outbound requests. To do this, services need some hints to tie together the entire trace.
 They need to propagate the appropriate HTTP headers so that when the proxies send span information, the spans can be correlated correctly into a single trace.
 
-Let's enable Distributed Tracing from the `Gateway Service`.
+Let's enable Distributed Context Propagation from the `Gateway Service`.
 
-#### Enabling Distributed Tracing
+#### Enabling Distributed Context Propagation
 
 First, create a new class `TracingInterceptor` class in the `com.redhat.cloudnative.gateway` package in the `src` directory as following
 
@@ -130,7 +130,7 @@ $ mvn clean package -f /projects/labs/gateway-vertx
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-Go back to `Distributed Tracing` user interface from [Kiali Console]({{ KIALI_URL }}) and see the result.
+Go back to `Distributed Tracing` menu from [Kiali Console]({{ KIALI_URL }}) and see the result.
 Now you have the aggreate trace for one request and it is much more better.
 On the left hand side, you have information like the duration.
 One call takes more than 400ms which you could judge as *normal* but ...
@@ -139,11 +139,12 @@ Let’s click on a trace title bar.
 
 ![Jaeger - Trace Detail View]({% image_path jaeger-trace-delay-detail-view.png %}){:width="700px"}
 
-Interesting!! You can see than the major part of the time is consuming by the Catalog Service.
+Interesting... The major part of a call is consuming by the `Catalog Service`.
 So let's have a look on its code. 
-Go through the Catalog Service source code and find the following piece of code.
+Go through the `catalog-spring-boot` source code and find the following piece of code.
 
 ~~~java
+public List<Product> getAll() {
     Spliterator<Product> products = repository.findAll().spliterator();
     Random random = new Random();
 
@@ -160,13 +161,14 @@ Go through the Catalog Service source code and find the following piece of code.
         result.add(product);
     });
     return result;
+}
 ~~~
 
-And yes, this burns your eyes right? Basically nobody could understand what the developer attempted to achieve but we do not have the time for that.
-This piece of code is a part of the `getAll` method which returns the list of all products from the database. 
-As you are an expert of Java 8, you are going to simplify the code and increase performance.
+And yes, this burns your eyes, right?! Basically nobody could understand what the developer attempted to achieve but we do not have the time for that.
+This piece of code is a part of the `getAll()` method which returns the list of all products from the database. 
+As you are an expert of Java 8, you are about to create a masterpiece by both simplifying the code and increasing performance. 
 
-Replace the `getAll` method as following:
+Replace the content of the `getAll()` method as following:
 
 ~~~java
     public List<Product> getAll() {
@@ -175,12 +177,20 @@ Replace the `getAll` method as following:
     }
 ~~~
 
+> Do not forget to import the missing packages.
+
 Now let's push the new version of the source code.
 
 ~~~shell
-$ oc start-build catalog-s2i --from-dir labs/catalog-spring-boot/ --follow
+$ oc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ --follow
 ~~~
 
 ![Jaeger - Trace Detail View]({% image_path jaeger-trace-fixed-detail-view.png %}){:width="700px"}
 
-Just wonderful! A masterpiece! You should be proud!!
+Just wonderful! You reduce the response time by a factor of 5!! You should be proud!!
+
+**CONGRATULATIONS!!!** You woke up from this bad dream but **is the spinning top stopped or not at the end?**
+
+![Inception - Spinning Top]({% image_path spinningtop.jpg %}){:width="500px"}
+
+We will never know and now, it is time to go deeper again!!

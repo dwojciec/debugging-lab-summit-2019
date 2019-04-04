@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 ## "Mr Robot"  Help me
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. It's time to enter to the system running. How to penetrate to the secured kubernetes system, I need the POWER of Elliot Alderson. 
+=======
+## “Mr Robot”, Please Help Me!
+After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. it's time to enter to the system running. How to enter to the secured kubernetes system, I need the power of Elliot Alderson  
+>>>>>>> 62ed3637d8406b87d57a5cc2b7271336757261ee
 
 ![MrRobot]({% image_path mrrobot.png %}){:width="300px"}
 
