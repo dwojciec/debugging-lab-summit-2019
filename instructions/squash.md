@@ -5,7 +5,7 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 [Source] (https://www.usanetwork.com/mrrobot/photos/eps22init1asec)
 
-## What is SQUASH ?
+## What is SQUASH  git commit -a -m '?
 
 [Solo.io] (https://solo.io/) created SQUASH for their use, to assist on the development of their own projects like Gloo, a Next Generation API Gateway, and Supergloo, a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
 
