@@ -58,7 +58,71 @@ Once completed, you will have a fully functional CodeReady Workspaces IDE runnin
 
 ![CodeReady Workspaces - Workspace]({% image_path codeready-workspace.png %}){:width="800px"}
 
-**CONGRATULATIONS!!!** You find a friend *Wilson* aka OpenShift.
+## Login to OpenShift
+
+First, you need to access to the OpenShift cluster from [CodeReady Workspaces url]({{CODEREADY_WORKSPACES_URL}}).
+In CodeReady Workspaces, click on `Commands Palette` and click on `OPENSHIFT > oc login`
+
+![oc login]({% image_path codeready-command-oc-login.png %}){:width="300px"}
+
+> **Command Palette Info**
+>
+> The command `oc login {{OPENSHIFT_CONSOLE_URL}}` is issued using the credentials `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}`
+
+You should get an output in the `oc login` terminal as following:
+
+~~~shell
+Login successful.
+ 
+You have access to the following projects and can switch between them with 'oc project <projectname>':
+ 
+  * {{COOLSTORE_PROJECT}}
+    {{INFRA_PROJECT}}
+ 
+Using project "{{COOLSTORE_PROJECT}}".
+Already on project "{{COOLSTORE_PROJECT}}" on server "{{OPENSHIFT_CONSOLE_URL}}:443".
+-----------
+Successful Connected to OpenShift as {{OPENSHIFT_USER}}
+-----------
+~~~
+
+## Build and Deploy the Mysterious Application
+
+Once logged, you can build and deploy the application to debug  on OpenShift.
+In CodeReady Workspaces, click on `Commands Palette` and click on `BUILD > Build Mysterious Application`
+
+![oc login]({% image_path codeready-command-build-app.png%}){:width="300px"}
+
+> **Command Palette Info**
+>
+> First, the `oc create` command creates a list of objects defining the application. 
+> Then, the `oc start-build` commands build container images of all microservices from the local source code 
+> and deploy them on OpenShift.
+>
+> This operation could take 5-10 minutes. Please, be patient :-)
+
+You can observe the build and deployment progress from the [OpenShift Web Console]({{OPENSHIFT_CONSOLE_URL}}).
+
+The first screen you will see is the authentication screen. Enter your username and password `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and 
+then log in. After you have authenticated to the web console, you will be presented with a
+list of projects that your user has permission to work with. 
+
+Click on the `{{COOLSTORE_PROJECT}}` project to be taken to the project overview page
+which will list all of the routes, services, deployments, and pods that you have
+running as part of your project.
+
+Once successfully built, deployed and runned on Openshift, the **6 pods** of your application should be *all in Dark Blue* as following:
+
+![oc login]({% image_path openshift-console-application.png%}){:width="500px"}
+
+Point your browser at the Web UI route url. You should be able to see the CoolStore with all 
+products and their inventory status.
+
+![CoolStore Shop]({% image_path coolstore-web.png %}){:width="840px"}
+
+> In order to generate traffic, please refresh this page several times.
+
+**CONGRATULATIONS!!!** You find a friend *Wilson* aka OpenShift. Everything **seems** doing great but... 
 
 ![Cast Away - Wilson]({% image_path castaway-wilson.jpg %}){:width="300px"}
 

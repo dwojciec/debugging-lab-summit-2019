@@ -3,9 +3,9 @@ config:
 
 modules:
   intro:
-    name: “You Are Not Alone“ (5 min)
+    name: “You Are Not Alone“ (10 min)
   kiali:
-    name: “Bird Box”… Not Today! (?? min)
+    name: “Bird Box”… Not Today! 20 min)
   jaeger:
     name: “Dream Within a Dream“ (15 min)
   squash:
