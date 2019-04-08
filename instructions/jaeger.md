@@ -1,6 +1,8 @@
-## "Inception" Quotes
+## "Dream Within a Dream"
 
-Context BlaBlaBla
+As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strategy* called **Distributed Tracing** using Red Hat Openshift Container Platform to infiltrate the application traces and extract valuable information to solve the issues
+
+![Inception]({% image_path inception.jpg %}){:width="300px"}
 
 #### What is Jaeger?
 
@@ -189,8 +191,8 @@ $ oc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ --fo
 
 Just wonderful! You reduce the response time by a factor of 5!! You should be proud!!
 
-**CONGRATULATIONS!!!** You woke up from this bad dream but **is the spinning top stopped or not at the end?**
+**CONGRATULATIONS!!!** You make it but **is the spinning top stopped or not at the end?**
 
-![Inception - Spinning Top]({% image_path spinningtop.jpg %}){:width="500px"}
+![Inception - Spinning Top]({% image_path spinningtop.jpg %}){:width="300px"}
 
 We will never know and now, it is time to go deeper again!!

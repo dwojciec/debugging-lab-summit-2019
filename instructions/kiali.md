@@ -1,6 +1,11 @@
 ## "Bird Box"... Not Today!!
 
+Your *Developer Workspaces* is now up and running but you still do not know anything about the *Mysterious* Application.
+Going all over this application and debugging it completely blindfolded is time consuming and a crazy bid as Malorie does in *Bird Box*.
+
 ![BirdBox]({% image_path birdbox.png %}){:width="300px"}
+
+Red Hat OpenShift Container Platform provides services to get observability of applications and to understand how different components are interacting with each other.
 
 #### Login to OpenShift
 
