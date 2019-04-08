@@ -1,108 +1,65 @@
-![Summit Logo]({% image_path redhatsummit2019.jpg %}){:width="500px"}
+![Summit Logo]({% image_path redhatsummit2019.jpg %}){:width="200px"}
 
-## Friday, 4:49PM, it begins...
+## May 7th, 2019 - 3:45PM - somewhere in Boston, it begins...
 
-Here the context
+After a long and frustrated morning spending hours to try to solve an issue that a colleague, passing by chance with his/her cup of coffee, fixed in literally 5 seconds, you are finally ready to start your normal working day when ...
 
-## Getting Started
+Suddently, your manager comes out of his/her office and walks to you with the very known face that saying *"You are in trouble!"*.
+Indeed, the new release of a *Mysterious* Application is planned for tonight (everything is always urgent) and it seems to contain some bugs.
 
-First of all, go to the [CodeReady Workspaces url]({{CODEREADY_WORKSPACES_URL}}) in order to configure your development workspace.
+And of course, the developer who has worked on this last release is now drinking some mojitos on the paradise island and you are the only one available who can save the situation. Your manager points the source code [*Mysterious* Application](https://github.com/mcouliba/cloud-native-labs/tree/debugging) out, gives you a gently tap on the shoulder and says "Bon Courage!".
 
-#### Registering to CodeReady Workspaces
-First, you need to register as a user. Register and choose the same username and password as 
-`{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}`.
+At that moment in time, you feel like you are in an island but not the same one than your colleague.
 
-![CodeReady Workspaces - Register]({% image_path codeready-register.png %}){:width="500px"}
+![Cast Away]({% image_path castaway.jpg %}){:width="300px"}
 
-#### Creating a Workspace
-Log into CodeReady Workspaces with your user. You can now create your workspace based on a stack. A 
-stack is a template of workspace configuration. For example, it includes the programming language and tools needed
-in your workspace. Stacks make it possible to recreate identical workspaces with all the tools and needed configuration
-on-demand. 
+Now you have to:
 
-For this lab, click on the **Java Cloud-Native** stack and then on the **Create** button. 
+* Identify the right tools to build and run the *Mysterious* Application
+* Install them on your environment
+* Build your application which could be composed by several heterogeneous languages
+* Test, deploy, run it
+* ...
 
-![CodeReady Workspaces - Workspace]({% image_path codeready-create-workspace.png %}){:width="1000px"}
+Piouf!! A lot of things to do in a short period of time...
 
-Click on **OPEN** to open and to start the workspace.
+*"No Worry Be Happy"*, Red Hat OpenShift Container Platform, Inc is here to help!!
 
-![CodeReady Workspaces - Workspace]({% image_path codeready-start-workspace.png %}){:width="1000px"}
+## What is CodeReady Workspaces?
 
-It takes a little while for the workspace to be ready. When it's ready, you will see a fully functional CodeReady Workspaces IDE running in your browser.
+![CodeReady]({% image_path codeready.png %}){:width="400px"}
 
-![CodeReady Workspaces - Workspace]({% image_path codeready-workspace.png %}){:width="1000px"}
+[Red Hat CodeReady Workspaces](https://developers.redhat.com/products/codeready-workspaces/overview/) is a collaborative Kubernetes-native development platform that delivers OpenShift workspaces and an IDE for rapid cloud application development.
 
-#### Importing the lab project
-Now you can import the project skeletons into your workspace.
+Built on the open Eclipse Che project, [Red Hat CodeReady Workspaces](https://developers.redhat.com/products/codeready-workspaces/overview/) provides developer workspaces on OpenShift with all the tools and the dependencies that are needed to code, build, test, run, and debug containerized applications. The entire product runs in the cloud and eliminates the need to install anything on a local machine.
 
-In the project explorer pane, click on the **Import Project...** and enter the following:
+* It offers fast onboarding capabilities for teams with powerful collaboration, workspace automation, and management at scale
+* It removes inconsistencies and the “works on my machine” syndrome
+* It protects source code from the hard-to-secure developer and personal laptops
 
-  * Type: `ZIP`
-  * URL: `{{LABS_DOWNLOAD_URL}}`
-  * Name: `labs`
-  * Check **Skip the root folder of the archive**
+## Getting your Developer Workspace with a single click
 
-![CodeReady Workspaces - Import Project]({% image_path codeready-import.png %}){:width="500px"}
+[Red Hat CodeReady Workspaces](https://developers.redhat.com/products/codeready-workspaces/overview/) will provide you an out-of-box *Developer Workspace* with all the tools and the dependencies we need to do the job.
+And in only one single click!
 
-Click on **Import**. Make sure you choose the **Blank** project configuration since the zip file contains multiple 
-project skeletons. Click on **Save**
+First, go to [*Mysterious* Application](https://github.com/mcouliba/cloud-native-labs/tree/debugging). The `README.md` file contains a link called *"Developer Workspace"*. 
 
-![CodeReady Workspaces - Import Project]({% image_path codeready-import-save.png %}){:width="500px"}
+![Developer Workspace - Link]({% image_path developer-workspace-link.png %}){:width="800px"}
 
-#### Accessing to OpenShift with OpenShift CLI
+Click on it, login as `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and let's the magic happens...
 
-In order to login, we will use the `oc` command and then specify the server that we
-want to authenticate to.
+![Developer Workspace - Build]({% image_path developer-workspace-build.png %}){:width="600px"}
 
-Issue the following command in CodeReady Workspaces terminal:
+> Red Hat CodeReady Workspaces uses a [Factory](https://developers.redhat.com/crw-fmi#share_workspaces_with_factories) to automate the provisioning of a specific workspace by using the `.factory.json` file in the GitHub repository.
+>
+> Providing a .factory.json file inside the repository signals to CodeReady Workspaces URL factory to configure the project and runtime according to this configuration file.
 
-~~~shell
-$ oc login {{OPENSHIFT_CONSOLE_URL}}
-~~~
+Once completed, you will have a fully functional CodeReady Workspaces IDE running in your browser within the source code already imported.
 
-You may see the following output:
+![CodeReady Workspaces - Workspace]({% image_path codeready-workspace.png %}){:width="800px"}
 
-~~~shell
-The server uses a certificate signed by an unknown authority.
-You can bypass the certificate check, but any data you send to the server could be intercepted by others.
-Use insecure connections? (y/n):
-~~~
+**CONGRATULATIONS!!!** You find a friend *Wilson* aka OpenShift.
 
-Enter in `Y` to use a potentially insecure connection.  The reason you received
-this message is because we are using a self-signed certificate for this
-workshop, but we did not provide you with the CA certificate that was generated
-by OpenShift. In a real-world scenario, either OpenShift's certificate would be
-signed by a standard CA (eg: Thawte, Verisign, StartSSL, etc.) or signed by a
-corporate-standard CA that you already have installed on your system.
+![Cast Away - Wilson]({% image_path castaway-wilson.jpg %}){:width="300px"}
 
-Enter the username and password `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` provided to you by the instructor
-
-Congratulations, you are now authenticated to the OpenShift server.
-
-[Projects]({{OPENSHIFT_DOCS_BASE}}/architecture/core_concepts/projects_and_users.html#projects) 
-are a top level concept to help you organize your deployments. An
-OpenShift project allows a community of users (or a user) to organize and manage
-their content in isolation from other communities. Each project has its own
-resources, policies (who can or cannot perform actions), and constraints (quotas
-and limits on resources, etc). Projects act as a "wrapper" around all the
-application services and endpoints you (or your teams) are using for your work.
-
-For this lab, let's connect to the project that you will use in the following labs for 
-deploying your applications. 
-
-> Make sure to use your dedicated project {{COOLSTORE_PROJECT}} by running the following command `oc project {{COOLSTORE_PROJECT}}`
-
-OpenShift ships with a web-based console that will allow users to
-perform various tasks via a browser.  To get a feel for how the web console
-works, open your browser and go to the [OpenShift Web Console]({{OPENSHIFT_CONSOLE_URL}}).
-
-The first screen you will see is the authentication screen. Enter your username and password `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and 
-then log in. After you have authenticated to the web console, you will be presented with a
-list of projects that your user has permission to work with. 
-
-Click on the **{{COOLSTORE_PROJECT}}** project to be taken to the project overview page
-which will list all of the routes, services, deployments, and pods that you have
-running as part of your project. There's nothing there now, but that's about to
-change.
-
-Now you are ready to tackle the problemS!
+You are now ready to tackle all the problem*S*!

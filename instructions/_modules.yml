@@ -3,7 +3,7 @@ config:
 
 modules:
   intro:
-    name: Introduction (?? min)
+    name: “You Are Not Alone“ (5 min)
   kiali:
     name: “Bird Box”… Not Today! (?? min)
   jaeger:
