@@ -1,7 +1,7 @@
 ## "Mr Robot"  Help me
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. It's time to enter to the system running. How to penetrate to the secured kubernetes system, I need the POWER of Elliot Alderson. 
 
-![MrRobot]({% image_path mrrobot.png %}){:width="300px"}
+![MrRobot]({% image_path mrrobot.png %}){:width="500px"}
 
 [Source](https://www.usanetwork.com/mrrobot/photos/eps22init1asec)
 
@@ -9,18 +9,18 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 [Solo.io](https://solo.io/) created [SQUASH](https://github.com/solo-io/squash) for their use, to assist on the development of their own projects like [Gloo](https://www.solo.io/glooe), a Next Generation API Gateway, and [Supergloo](https://www.solo.io/copy-of-glooe), a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
 
-###For java developers
+### For java developers
 Let’s take a look at the flow below, which is for debugging a Java application, for example:
 
-![Java]({% image_path java_squash.png %}){:width="300px"}
+![Java]({% image_path java_squash.png %}){:width="500px"}
 
 Squash brings excellent value to Java developers in that it will automatically find the debug port that is specified when the JVM starts. After the port is located, it uses port forward and then relies on the IDE’s capability to leverage JDWP.
 
 
-###For Go developers
+### For Go developers
 For Go software engineers that run and develop for Kubernetes, it’s fair to say that it’s a must-have. There are a [few ways to debug a Go application in Kubernetes](https://kubernetes.io/blog/2018/05/01/developing-on-kubernetes/), but none is as smooth and considerate of enterprise scenarios as Squash.
 
-![Go]({% image_path go_squash.png %}){:width="300px"}
+![Go]({% image_path go_squash.png %}){:width="500px"}
 
 
 ## Debugging Applications
