@@ -48,16 +48,21 @@ oc new-project guides
 oc new-app osevg/workshopper --name=debug-workshop \
       -e CONTENT_URL_PREFIX=https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/instructions
       -e WORKSHOPS_URLS="https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/instructions/_rhsummit19.yml" \
-      -e JAVA_APP=false \
-      -e OPENSHIFT_MASTER="http://127.0.0.1:8443" \
+      -e OPENSHIFT_CONSOLE_URL="http://127.0.0.1:8443" \
       -e APPS_SUFFIX="apps.127.0.0.1.nip.io" \
-      -e DEBUG_LAB_HOSTNAME="127.0.0.1"
+      -e DEBUG_LAB_HOSTNAME="127.0.0.1" \
+      -e LABS_DOWNLOAD_URL="https://github.com/mcouliba/cloud-native-labs/archive/debugging.zip" \                            
+      -e CODEREADY_WORKSPACES_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
+      -e OPENSHIFT_USER=userX 
+      -e OPENSHIFT_PASWORD=openshift                              \
+      -e KIALI_URL="https://kiali-infraX.apps.127.0.0.1.nip.io/"     \                             
+      -e COOLSTORE_TEMPLATE="https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml"
 
 oc expose svc/debug-workshop
 ```
 
 Replace `OPENSHIFT_MASTER` with the URL to the console of your working OpenShift
-environment (e.g.  `http://128.0.0.1:8443`), `APPS_SUFFIX` with your default
+environment (e.g.  `http://127.0.0.1:8443`), `APPS_SUFFIX` with your default
 routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `DEBUG_LAB_HOSTNAME` with
 the public hostname of your machine. These variables are used to subsitute
 values in the markdown content files.
@@ -74,19 +79,27 @@ command
 ## Test Locally with Docker
 
 You can directly run Workshopper as a docker container which is specially helpful when writing the content.
-```
+
+~~~shell
+git clone https://github.com/dwojciec/debugging-lab-summit-2019.git
+cd debugging-lab-summit-2019.git
+
 docker run -p 8080:8080 -v $(pwd):/app-data \
               -e CONTENT_URL_PREFIX="file:///app-data/instructions" \
               -e WORKSHOPS_URLS="file:///app-data/instructions/_rhsummit19.yml" \
-              -e LOG_TO_STDOUT=true \
-              -e OPENSHIFT_MASTER="foo" \
-              -e APPS_SUFFIX="$MY_IP.xip.io" \
-              -e DEBUG_LAB_HOSTNAME="MY_HOSTNAME" \
+              -e OPENSHIFT_CONSOLE_URL=https://127.0.0.1:8443/" \                    
+-e APPS_SUFFIX=“apps.127.0.0.1.nip.io" \                          
+-e DEBUG_LAB_HOSTNAME="MY_HOSTNAME" \
+-e LABS_DOWNLOAD_URL="https://github.com/mcouliba/cloud-native-labs/archive/debugging.zip" \                            
+-e CODEREADY_WORKSPACES_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
+-e OPENSHIFT_USER=userX -e OPENSHIFT_PASWORD=openshift                              \
+-e KIALI_URL="https://kiali-infraX.apps.127.0.0.1.nip.io/"     \                             
+-e COOLSTORE_TEMPLATE= https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml"   \  
               quay.io/osevg/workshopper:latest
-```
+~~~
 
 Replace `OPENSHIFT_MASTER` with the URL to the console of your working OpenShift
-environment (e.g.  `http://128.0.0.1:8443`), `APPS_SUFFIX` with your default
+environment (e.g.  `http://127.0.0.1:8443`), `APPS_SUFFIX` with your default
 routing suffix (e.g.  `apps.127.0.0.1.nip.io`), and `DEBUG_LAB_HOSTNAME` with
 the public hostname of your machine. These variables are used to subsitute
 values in the markdown content files.
