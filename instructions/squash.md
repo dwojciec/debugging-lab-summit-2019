@@ -1,9 +1,9 @@
-## "Mr Robot"  Help me
+## "Mr Robot"  Please help me
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. It's time to enter to the system running. How to penetrate to the secured kubernetes system, I need the POWER of Elliot Alderson. 
 
 ![MrRobot]({% image_path mrrobot.png %}){:width="500px"}
 
-[Source](https://www.usanetwork.com/mrrobot/photos/eps22init1asec)
+[Source: https://www.usanetwork.com/mrrobot/photos/eps22init1asec](https://www.usanetwork.com/mrrobot/photos/eps22init1asec)
 
 ## What is SQUASH ?
 
@@ -37,12 +37,13 @@ CoolStore application seems to have a bug that causes the inventory status for o
 
 This is not an expected behavior!
 
+The Gateway pod is composed of **vertx** container and **istio-proxy** container.
+
 ~~~shell
-$ oc logs dc/gateway | grep -i error
+$ oc logs dc/gateway -c vertx| grep -i error
 
 ...
 WARNING: Inventory error for 444436: status code 204
-SEVERE: Inventory error for 444436: null
 ...
 ~~~
 
@@ -54,7 +55,7 @@ information about this bug:
 
 
 ~~~shell
-$ oc logs dc/inventory | grep ERROR
+$ oc logs dc/inventory -c thorntail-v2 | grep ERROR
 ~~~
 
 There doesn't seem to be anything relevant to the `invalid response` error that the 
@@ -70,43 +71,89 @@ happens when API Gateway makes this call:
 $ curl http://{{INVENTORY_ROUTE_HOST}}/api/inventory/444436
 ~~~
 
+
 > You can use `curl -v` to see all the headers sent and received. You would received 
 > a `HTTP/1.1 204 No Content` response for the above request.
+example
+
+~~~
+ curl http://inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com/api/inventory/444436 -v
+* About to connect() to inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com port 80 (#0)
+*   Trying 52.58.29.86...
+* Connected to inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com (52.58.29.86) port 80 (#0)
+> GET /api/inventory/444436 HTTP/1.1
+> User-Agent: curl/7.29.0
+> Host: inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com
+> Accept: */*
+>
+< HTTP/1.1 204 No Content
+< date: Mon, 15 Apr 2019 09:40:58 GMT
+< x-envoy-upstream-service-time: 7
+< server: istio-envoy
+< x-envoy-decorator-operation: inventory.coolstore22.svc.cluster.local:8080/*
+< Set-Cookie: 99431852768157cf108d330fd0eca9b9=e9242f754299538f7921ed6aa430982c; path=/; HttpOnly
+< Cache-control: private
+<
+* Connection #0 to host inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com left intact
+
+~~~
+
 
 No response came back and that seems to be the reason the inventory status is not displayed 
 on the web interface.
 
 Let's debug the Inventory service to get to the bottom of this!
 
-#### Enable Remote Debugging 
+#### Debugging with Squashctl  
 
-Remote debugging is a useful debugging technique for application development which allows 
-looking into the code that is being executed somewhere else on a different machine and 
-execute the code line-by-line to help investigate bugs and issues. Remote debugging is 
-part of  Java SE standard debugging architecture which you can learn more about it in [Java SE docs](https://docs.oracle.com/javase/8/docs/technotes/guides/jpda/architecture.html).
+Squash brings the power of modern popular debuggers to developers of microservices apps that run on container orchestrator platforms. Choose which containers, pods, services or images you want to debug, and Squash will let you set breakpointsm step through your code while jumping between microservices, gollow variable values on the fly, and change these values during runtime. 
 
-
-The Java image on OpenShift has built-in support for remote debugging and it can be enabled 
-by setting the `JAVA_DEBUG=true` environment variables on the deployment config for the pod 
-that you want to remotely debug.
-
-An easier approach would be to use the fabric8 maven plugin to enable remote debugging on 
-the Inventory pod. It also forwards the default remote debugging port, 5005, from the 
-Inventory pod to your workstation so simplify connectivity.
-
-Enable remote debugging on Inventory by running the following inside the `/projects/labs/inventory-thorntail` 
+Using **SQUASHCL** on Inventory by running the following inside the `/ 
 directory in the CodeReady Workspaces **Terminal** window:
 
+~~~shell
+$ squashctl --version
+squashctl version 0.5.8, created 2019-04-09.21:00:55
+~~~
 
 ~~~shell
+$ cd /projects/labs/inventory-thorntail
 $ mvn fabric8:deploy -Dfabric8.debug.enabled=true
-$ oc get pods -w -lapp=inventory,deploymentconfig=inventory
-NAME                READY     STATUS    RESTARTS   AGE
-inventory-3-jrk84   1/1       Running   0          15m
+$ oc get pods -lapp=inventory,deploymentconfig=inventory
+NAME                           READY     STATUS    RESTARTS   AGE
+inventory-1-l22lz              2/2       Running   2          26m
+
+$ squashctl
+Attaching debugger
+? Select a debugger java
+? Select a namespace to debug coolstore22
+? Select a pod inventory-1-l22lz
+? Select a container thorntail-v2
+? Going to attach java to pod inventory-1-l22lz. continue? Yes
+
+or 
+ squashctl --machine --namespace coolstore22 --debugger java --squash-namespace infra22
+ Attaching debugger
+? Select a pod inventory-1-l22lz
+? Select a container thorntail-v2
+? Going to attach java to pod inventory-1-l22lz. continue? Yes
+Squash will create a debugger pod in your target pod's namespace.
+Creating service account squash-plank in namespace infra22
+
+Creating cluster role squash-plank-cr
+
+Creating cluster role binding squash-plank-crb
+
+All squashctl permission resources created.
+~~~
+
+To delete all planks
+
+~~~
+squashctl utils delete-planks --squash-namespace infra22
 ~~~
 
 
-Wait until the service is `Running` with `1/1` in the `READY` column.
 
 > The default port for remoting debugging is `5005` but you can change the default port 
 > via environment variables. Read more in the [Java S2I Image docs](https://access.redhat.com/documentation/en-us/red_hat_jboss_middleware_for_openshift/3/html/red_hat_java_s2i_for_openshift/reference#configuration_environment_variables).
