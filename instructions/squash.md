@@ -77,13 +77,13 @@ $ curl http://{{INVENTORY_ROUTE_HOST}}/api/inventory/444436
 example
 
 ~~~
- curl http://inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com/api/inventory/444436 -v
-* About to connect() to inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com port 80 (#0)
+ curl http://inventory-coolstore22.apps.nantes-XXXX.openshiftworkshop.com/api/inventory/444436 -v
+* About to connect() to inventory-coolstore22.apps.nantes-XXXX.openshiftworkshop.com port 80 (#0)
 *   Trying 52.58.29.86...
-* Connected to inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com (52.58.29.86) port 80 (#0)
+* Connected to inventory-coolstore22.apps.nantes-XXXX.openshiftworkshop.com (52.58.29.86) port 80 (#0)
 > GET /api/inventory/444436 HTTP/1.1
 > User-Agent: curl/7.29.0
-> Host: inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com
+> Host: inventory-coolstore22.apps.nantes-XXXX.openshiftworkshop.com
 > Accept: */*
 >
 < HTTP/1.1 204 No Content
@@ -94,7 +94,7 @@ example
 < Set-Cookie: 99431852768157cf108d330fd0eca9b9=e9242f754299538f7921ed6aa430982c; path=/; HttpOnly
 < Cache-control: private
 <
-* Connection #0 to host inventory-coolstore22.apps.nantes-6d63.openshiftworkshop.com left intact
+* Connection #0 to host inventory-coolstore22.apps.nantes-XXXX.openshiftworkshop.com left intact
 
 ~~~
 
