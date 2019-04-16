@@ -1,5 +1,5 @@
 id: "debugging"
-name: "Getting Hands On With Debugging Microservices Apps on OpenShift"
+name: "Debugging microservices applications on Red Hat OpenShift"
 
 content:
   url: https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master
