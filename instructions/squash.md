@@ -118,7 +118,6 @@ squashctl version 0.5.8, created 2019-04-09.21:00:55
 
 ~~~shell
 $ cd /projects/labs/inventory-thorntail
-$ mvn fabric8:deploy -Dfabric8.debug.enabled=true
 $ oc get pods -lapp=inventory,deploymentconfig=inventory
 NAME                           READY     STATUS    RESTARTS   AGE
 inventory-1-l22lz              2/2       Running   2          26m
