@@ -106,7 +106,7 @@ Let's debug the Inventory service to get to the bottom of this!
 
 #### Debugging with Squashctl  
 
-Squash brings the power of modern popular debuggers to developers of microservices apps that run on container orchestrator platforms. Choose which containers, pods, services or images you want to debug, and Squash will let you set breakpointsm step through your code while jumping between microservices, gollow variable values on the fly, and change these values during runtime. 
+Squash brings the power of modern popular debuggers to developers of microservices apps that run on container orchestrator platforms. Choose which containers, pods, services or images you want to debug, and Squash will let you set breakpoints, step through your code while jumping between microservices, follow variable values on the fly, and change these values during run time. 
 
 Using **SQUASHCL** on Inventory by running the following inside the `/ 
 directory in the CodeReady Workspaces **Terminal** window:
