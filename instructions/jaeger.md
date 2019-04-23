@@ -20,27 +20,38 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 #### What are you hidding, Mr/Mrs *Application*?
 
-From the [Kiali Console]({{ KIALI_URL }}), click on the `Distributed Tracing` link in the left navigation and enter the following configuration:
+From the [Kiali Console]({{ KIALI_URL }}), `click on the Distributed Tracing` link in the left navigation and enter the following configuration:
 
- * Select a Namespace: `{{COOLSTORE_PROJECT}}`
- * Select a Service: `gateway`
+ * Select a Namespace: **{{COOLSTORE_PROJECT}}**
+ * Select a Service: **gateway**
  * Then click on the **magnifying glass** on the right
 
 ![Jaeger - Traces View]({% image_path jaeger-trace-2spans-view.png %}){:width="700px"}
 
-By default, Service Mesh automatically sends collected tracing data to Jaeger, so that we are able to only see single trace (one-to-one service call).
+By default, Service Mesh automatically sends collected tracing data to Jaeger, so that we are able to only see individual span (one-to-one service call).
 
-* 1 single trace for `Gateway Service` -> `Catalog Service`
-* 7 single traces for `Gateway Service` -> `Inventory Service`
+* 1 span for ***Gateway Service*** -> ***Catalog Service***
+* 7 spans for ***Gateway Service*** -> ***Inventory Service***
 
-Distributed Tracing involves propagating the tracing context from service to service by sending certain incoming HTTP headers downstream to outbound requests. To do this, services need some hints to tie together the entire trace.
-They need to propagate the appropriate HTTP headers so that when the proxies send span information, the spans can be correlated correctly into a single trace.
-
-Let's enable Distributed Context Propagation from the `Gateway Service`.
+As you have called several times the ***Gateway Service*** through the Web UI, you find much more than 8 spans in Jaeger and you cannot easily observe the entire trace for an end-to-end request.
 
 #### Enabling Distributed Context Propagation
 
-First, create a new class `TracingInterceptor` class in the `com.redhat.cloudnative.gateway` package in the `src` directory as following
+**Distributed Tracing** involves propagating the tracing context from service to service by sending certain incoming HTTP headers downstream to outbound requests. To do this, services need some hints to tie together the entire trace. They need to propagate the appropriate HTTP headers so that when the proxies send span information, the spans can be correlated correctly into a single trace.
+
+Let's enable Distributed Context Propagation from the ***Gateway Service***.
+
+First, you are going to intercept the following header creating by Service Mesh in order to add them into the outbound requests:
+
+ * x-request-id
+ * x-b3-traceid
+ * x-b3-spanid
+ * x-b3-parentspanid
+ * x-b3-sampled
+ * x-b3-flags
+ * x-ot-span-context
+
+In CodeReady Workspaces, create a new class ***TracingInterceptor*** class in the ***com.redhat.cloudnative.gateway*** package in the **src** directory as following
 
 ~~~java
 package com.redhat.cloudnative.gateway;
@@ -110,29 +121,38 @@ public class TracingInterceptor {
 }
 ~~~
 
-Then, propagate the headers from the incoming request `Gateway Service` to any outgoing requests `Catalog Service` and `Inventory Service`. When you make downstream calls in your applications, make sure to include these headers.
+Then, route all traffic into the ***TracingInterceptor*** handler by replacing the comment ***// Enable TraceInterceptor handler here*** in the ***start()*** method with the following code:
 
 ~~~java
 router.route()
     .order(-1)
     .handler(TracingInterceptor.create());
-
-TracingInterceptor.propagate(catalog, rc).get("/api/catalog")
-
-TracingInterceptor.propagate(inventory, rc).get("/api/inventory/" + product.getString("itemId"))
-
-TracingInterceptor.propagate(cart, rc).get("/api/cart/" + cardId)
-
 ~~~
 
-Now check your modifiy then push the new version of the source code to OpenShift.
+Finally, propagate the headers from the incoming request ***Gateway Service*** to any outgoing requests ***Catalog Service*** and ***Inventory Service*** using the ***propagate()*** method from ***TracingInterceptor*** class when calling outgoing services in the ***products()*** method.
+ 
+<pre>
+    <code>
+        private void products(RoutingContext rc) {
+            [...]
+            <del>catalog.get("/api/catalog")</del>
+            TracingInterceptor.propagate(catalog, rc).get("/api/catalog")
+            [...]
+            <del>inventory.get("/api/inventory/" + product.getString("itemId"))</del>
+            TracingInterceptor.propagate(inventory, rc).get("/api/inventory/" + product.getString("itemId"))
+            [...]
+        }
+    </code>
+</pre>
+
+Now check your modification and push the new version of the source code to OpenShift.
 
 ~~~shell
 $ mvn clean package -f /projects/labs/gateway-vertx
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-Go back to `Distributed Tracing` menu from [Kiali Console]({{ KIALI_URL }}) and see the result.
+`Go back to Distributed Tracing` menu from [Kiali Console]({{ KIALI_URL }}) and see the result.
 Now you have the aggreate trace for one request and it is much more better.
 On the left hand side, you have information like the duration.
 One call takes more than 400ms which you could judge as *normal* but ...
@@ -141,9 +161,9 @@ Let’s click on a trace title bar.
 
 ![Jaeger - Trace Detail View]({% image_path jaeger-trace-delay-detail-view.png %}){:width="700px"}
 
-Interesting... The major part of a call is consuming by the `Catalog Service`.
+Interesting... The major part of a call is consuming by the ***Catalog Service***.
 So let's have a look on its code. 
-Go through the `catalog-spring-boot` source code and find the following piece of code.
+Go through the **catalog-spring-boot** source code and find the following piece of code.
 
 ~~~java
 public List<Product> getAll() {
