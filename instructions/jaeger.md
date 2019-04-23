@@ -145,7 +145,7 @@ Finally, propagate the headers from the incoming request ***Gateway Service*** t
     </code>
 </pre>
 
-Now check your modifiy then push the new version of the source code to OpenShift.
+Now check your modification and push the new version of the source code to OpenShift.
 
 ~~~shell
 $ mvn clean package -f /projects/labs/gateway-vertx
