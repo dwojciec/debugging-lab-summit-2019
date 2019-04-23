@@ -8,6 +8,8 @@ After checking logs and traces we need the ability to do live debugging of my ap
 ## What is SQUASH ?
 
 [Solo.io](https://solo.io/) created [SQUASH](https://github.com/solo-io/squash) for their use, to assist on the development of their own projects like [Gloo](https://www.solo.io/glooe), a Next Generation API Gateway, and [Supergloo](https://www.solo.io/copy-of-glooe), a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
+[Squash](https://squash.solo.io) is a distributed multi-language debugger that allows s to step by step debug our application.
+[Solo.io](https://solo.io/) mission is to build tools and help people to adopt Service Mesh.
 
 ### For java developers
 Let’s take a look at the flow below, which is for debugging a Java application, for example:
