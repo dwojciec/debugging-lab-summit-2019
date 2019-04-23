@@ -566,13 +566,7 @@ items:
           version: v1.0
       spec:
         containers:
-        - args:
-          - -c
-          - curl http://localhost:15000/server_info | grep -i live && sleep 10 &&
-            /usr/local/s2i/run
-          command:
-          - /bin/bash
-          env:
+        - env:
           - name: KUBERNETES_NAMESPACE
             valueFrom:
               fieldRef:
