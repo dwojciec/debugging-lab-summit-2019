@@ -243,8 +243,7 @@ objects:
         containers:
         - args:
           - -c
-          - curl http://localhost:15000/server_info | grep -i live && sleep 10 &&
-            /usr/local/s2i/run
+          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
           command:
           - /bin/bash
           env:
@@ -460,8 +459,7 @@ objects:
         containers:
         - args:
           - -c
-          - curl http://localhost:15000/server_info | grep -i live && sleep 10 &&
-            /usr/local/s2i/run
+          - until $(curl -o /dev/null -s -I -f http://localhost:15000); do echo \"Waiting for Istio Sidecar...\"; sleep 1; done; sleep 10; /usr/local/s2i/run
           command:
           - /bin/bash
           env:
@@ -786,6 +784,8 @@ objects:
       spec:
         containers:
         - env:
+          - name: COOLSTORE_GW_ENDPOINT
+            value: istio-ingressgateway-istio-system
           - name: COOLSTORE_USER_PREFIX
             value: /${COOLSTORE_PROJECT}
           image: web:latest
