@@ -1,5 +1,7 @@
 ## "Dream Within a Dream"
 
+*15 MINUTES PRACTICE*
+
 As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strategy* called **Distributed Tracing** using Red Hat Openshift Container Platform to infiltrate the application traces and extract valuable information to solve the issues
 
 ![Inception]({% image_path inception.jpg %}){:width="300px"}

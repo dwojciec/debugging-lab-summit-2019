@@ -2,26 +2,28 @@
 
 ## May 7th, 2019 - 3:45PM - somewhere in Boston, it begins...
 
-After a long and frustrated morning spending hours to try to solve an issue that a colleague, passing by chance with his/her cup of coffee, fixed in literally 5 seconds, you are finally ready to start your normal working day when ...
+*15 MINUTES PRACTICE*
 
-Suddently, your manager comes out of his/her office and walks to you with the very known face that saying *"You are in trouble!"*.
-Indeed, the new release of a *Mysterious* Application is planned for tonight (everything is always urgent) and it seems to contain some bugs.
+After a long and frustrated morning spending hours to solve an issue that a colleague, passing by chance with his/her cup of coffee, fixed in literally 5 seconds, you are finally ready to start your normal working day when ...
 
-And of course, the developer who has worked on this last release is now drinking some mojitos on the paradise island and you are the only one available who can save the situation. Your manager points the source code [*Mysterious* Application](https://github.com/mcouliba/cloud-native-labs/tree/debugging) out, gives you a gently tap on the shoulder and says "Bon Courage!".
+Your manager suddenly comes out of his/her office and walks to you with the very known face that saying *"You are in trouble!"*.
+Indeed, the new release of a ***Mysterious Application*** is planned for tonight (everything is always urgent) and it seems to contain some bugs.
 
-At that moment in time, you feel like you are in an island but not the same one than your colleague.
+And of course, the developer who worked on this last release is now drinking some mojitos on the paradise island and you are the only one available who can save the situation. Your manager points the source code [*Mysterious Application*](https://github.com/mcouliba/cloud-native-labs/tree/debugging) out, gives you a gentle tap on the shoulder and says "Bon Courage!".
+
+At that moment in time, you feel like you are on an island, but not the same one than your colleague.
 
 ![Cast Away]({% image_path castaway.jpg %}){:width="300px"}
 
 Now you have to:
 
-* Identify the right tools to build and run the *Mysterious* Application
+* Identify the right tools to build and run the ***Mysterious Application***
 * Install them on your environment
 * Build your application which could be composed by several heterogeneous languages
 * Test, deploy, run it
 * ...
 
-Piouf!! A lot of things to do in a short period of time...
+Piouf!! Lots of things to do in a short period of time...
 
 *"No Worry Be Happy"*, Red Hat OpenShift Container Platform, Inc is here to help!!
 
@@ -40,19 +42,19 @@ Built on the open Eclipse Che project, [Red Hat CodeReady Workspaces](https://de
 ## Getting your Developer Workspace with a single click
 
 [Red Hat CodeReady Workspaces](https://developers.redhat.com/products/codeready-workspaces/overview/) will provide you an out-of-box *Developer Workspace* with all the tools and the dependencies we need to do the job.
-And in only one single click!
+**And with only one single click!**
 
-First, go to [*Mysterious* Application](https://github.com/mcouliba/cloud-native-labs/tree/debugging). The `README.md` file contains a link called *"Developer Workspace"*. 
+First, go to [*Mysterious Application*](https://github.com/mcouliba/cloud-native-labs/tree/debugging). The **README.md** file contains a link called ***"Developer Workspace"***. 
 
 ![Developer Workspace - Link]({% image_path developer-workspace-link.png %}){:width="800px"}
 
-Click on it, login as `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and let's the magic happens...
+**Click on it**, login as `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and let's the magic happens...
 
 ![Developer Workspace - Build]({% image_path developer-workspace-build.png %}){:width="600px"}
 
-> Red Hat CodeReady Workspaces uses a [Factory](https://developers.redhat.com/crw-fmi#share_workspaces_with_factories) to automate the provisioning of a specific workspace by using the `.factory.json` file in the GitHub repository.
+> Red Hat CodeReady Workspaces uses a [Factory](https://developers.redhat.com/crw-fmi#share_workspaces_with_factories) to automate the provisioning of a specific workspace by using the **.factory.json** file in the GitHub repository.
 >
-> Providing a .factory.json file inside the repository signals to CodeReady Workspaces URL factory to configure the project and runtime according to this configuration file.
+> Providing a **.factory.json** file inside the repository signals to CodeReady Workspaces URL factory to configure the project and runtime according to this configuration file.
 
 Once completed, you will have a fully functional CodeReady Workspaces IDE running in your browser within the source code already imported.
 
@@ -61,7 +63,7 @@ Once completed, you will have a fully functional CodeReady Workspaces IDE runnin
 ## Login to OpenShift
 
 First, you need to access to the OpenShift cluster from [CodeReady Workspaces url]({{CODEREADY_WORKSPACES_URL}}).
-In CodeReady Workspaces, click on `Commands Palette` and click on `OPENSHIFT > oc login`
+In CodeReady Workspaces, use the ***Commands Palette*** and **click on OPENSHIFT > oc login**
 
 ![oc login]({% image_path codeready-command-oc-login.png %}){:width="300px"}
 
@@ -89,7 +91,7 @@ Successful Connected to OpenShift as {{OPENSHIFT_USER}}
 ## Build and Deploy the Mysterious Application
 
 Once logged, you can build and deploy the application to debug  on OpenShift.
-In CodeReady Workspaces, click on `Commands Palette` and click on `BUILD > Build Mysterious Application`
+In CodeReady Workspaces, use the ***Commands Palette***  and **click on BUILD > Build Mysterious Application**
 
 ![oc login]({% image_path codeready-command-build-app.png%}){:width="300px"}
 
@@ -107,7 +109,7 @@ The first screen you will see is the authentication screen. Enter your username 
 then log in. After you have authenticated to the web console, you will be presented with a
 list of projects that your user has permission to work with. 
 
-Click on the `{{COOLSTORE_PROJECT}}` project to be taken to the project overview page
+**Click on the {{COOLSTORE_PROJECT}} project** to be taken to the project overview page
 which will list all of the routes, services, deployments, and pods that you have
 running as part of your project.
 

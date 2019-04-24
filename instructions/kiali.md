@@ -1,6 +1,8 @@
 ## "Bird Box"... Not Today!!
 
-The *Mysterious* application in your *Developer Workspaces* is now up and running. You can see that it is composed of several components but so far, you have no clue about the application is working.
+*20 MINUTES PRACTICE*
+
+The ***Mysterious Application*** in your *Developer Workspaces* is now up and running. You can see that it is composed of several components, but so far, you have no clue about how the application is working.
 Going all over this application and debugging it completely blindfolded is time consuming and a crazy bid as Malorie does in *Bird Box*.
 
 ![BirdBox]({% image_path birdbox.png %}){:width="300px"}
@@ -22,24 +24,24 @@ A service mesh can now provide these services on a platform level and frees the 
 Kiali provides an interactive graph view of your namespace in real time, being able to display the interactions at several levels (applications, versions, workloads), with contextual information and charts on the selected graph node or edge.
 
 First, you need to access to Kiali. 
-Launch a browser and navigate to [Kiali Console]({{ KIALI_URL }}) ({{ KIALI_URL }}). 
+Launch a browser and navigate to [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax** from the url with your dedicated project)*. 
 You should see the Kiali console login screen.
 
 ![Kiali - Log In]({% image_path kiali-login.png %}){:width="500px"}
 
 Log in to the Kiali console as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
 
-After you log in, click on the `Graph` link in the left navigation and enter the following configuration:
+After you log in, **click on the Graph link** in the left navigation and enter the following configuration:
 
- * Namespace: `{{COOLSTORE_PROJECT}}`
- * Display: check `Traffic Animation`
- * Fetching: `Last min`
+ * Namespace: **{{COOLSTORE_PROJECT}}**
+ * Display: **check 'Traffic Animation**
+ * Fetching: **Last min**
 
 ![Kiali - Graph]({% image_path kiali-graph.png %}){:width="700px"}
 
  This page shows a graph with all the microservices, connected by the requests going through them. On this page, you can see how the services interact with each other.
 
-Even if the application *seemed* working fine, you can see from [Kiali Console]({{ KIALI_URL }}) ({{ KIALI_URL }}), there is a problem in the Gateway Service which sends a 4xx http error.
+Even if the application *seemed* working fine, there is a problem in the ***Gateway Service*** which sends a 4xx http error.
 
 ![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="300px"}
 
@@ -58,14 +60,14 @@ Let's fix it!!
 * Architectured for running in serverless and container environments like Knative and OpenShift. 
 * Designed around a **container first philosophy**, what this means in real terms is that Quarkus is optimised for low memory usage and fast startup times.
 
-We already compiled the Cart Service application to a native executable called `cart-1.0-SNAPSHOT-runner`. You can find in the `cart-quarkus` project under the `src/target`folder. It improves the startup time of the `Cart Service`, and produces a minimal disk footprint. The executable would have everything to run the application including the "JVM" and the application.
+We already compiled the Cart Service application to a native executable called **cart-1.0-SNAPSHOT-runner**. You can find in the **cart-quarkus** project under the **src/target** folder. It improves the startup time of the ***Cart Service***, and produces a minimal disk footprint. The executable would have everything to run the application including the "JVM" and the application.
 
 In this chapter, you will focus on creating a Docker image using the produced native executable.
 
 ![Quarkus - Container]({% image_path containerization-process.png %}){:width="700px"}
 
 > If you want, take a moment to examine the source code of the Cart Service implemented with [Quarkus](https://quarkus.io/).
-> You can find it under the package `com.redhat.cloudnative` in the `src/main/java` directory of the `cart-quarkus` project.
+> You can find it under the package ***com.redhat.cloudnative*** in the **src/main/java** directory of the **cart-quarkus** project.
 
 In the *Terminal* window, execute the following commands to leverage the build mechanism of OpenShift and deploy the service:
 
@@ -91,7 +93,7 @@ $ oc expose svc cart
 ![Openshift Console Cart]({% image_path console-cart.png %}){:width="500px"}
 
 **YOU HAVE TO SEE THAT!** 
-Have a look to the log of the `Cart Service` pod by cliking in the dark blue circle and then **just admire its amazing FAST BOOT TIME!**
+Have a look to the log of the ***Cart Service*** pod by cliking in the dark blue circle and then **just admire its amazing FAST BOOT TIME!**
 
 ~~~bash
 2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.009s. Listening on: http://0.0.0.0:8080 
@@ -101,16 +103,16 @@ Have a look to the log of the `Cart Service` pod by cliking in the dark blue cir
 
 **AND YES, IT'S A JAVA APPLICATION!**
 
-You can ensure the proper functioning of the `Cart Service` by accessing to {{CART_ROUTE_HOST}} and click on `Test it`.
+You can ensure the proper functioning of the ***Cart Service*** by accessing to {{CART_ROUTE_HOST}} and **click on 'Test it'**.
 
 ![Cart Service]({% image_path cart-service.png %}){:width="500px"}
 
 #### Update Gateway Service
 
-Previously, we deployed the `Cart Service`. Now, you have to take it in account in the `Gateway Service`.
-Edit the `src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java` class as following:
+Previously, we deployed the ***Cart Service***. Now, you have to take it in account in the ***Gateway Service***.
+Edit the **src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java** file as following:
 
-First, add the WebClient attribute `cart` in the class `GatewayVerticle`
+First, add the WebClient attribute ***cart*** in the class ***GatewayVerticle***
 
 ~~~java
     private WebClient catalog;
@@ -119,7 +121,7 @@ First, add the WebClient attribute `cart` in the class `GatewayVerticle`
     private WebClient cart; 
 ~~~
 
-Then, define the route `/api/cart/:cardId` in the `start()` method
+Then, define the route **/api/cart/:cardId** in the ***start()*** method
 
 ~~~java
         router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
@@ -128,7 +130,7 @@ Then, define the route `/api/cart/:cardId` in the `start()` method
         router.get("/api/cart/:cardId").handler(this::getCartHandler);
 ~~~
 
-Next, replace the `ServiceDiscovery.create()` call as following
+Next, replace the ***ServiceDiscovery.create()*** call as following
 
 ~~~java
         ServiceDiscovery.create(vertx, discovery -> {
@@ -167,7 +169,7 @@ Next, replace the `ServiceDiscovery.create()` call as following
         });
 ~~~
 
-Finally, add the `getCartHandler` method in the `GatewayVerticle` class.
+Finally, add the ***getCartHandler()*** method in the ***GatewayVerticle*** class.
 
 ~~~java
     private void getCartHandler(RoutingContext rc) {
@@ -190,7 +192,7 @@ Finally, add the `getCartHandler` method in the `GatewayVerticle` class.
     }
 ~~~
 
-Check that your source code compiles then use the OpenShift CLI command to start a new build and deployment for the update `Gateway Service`:
+Check that your source code compiles then use the OpenShift CLI command to start a new build and deployment for the update ***Gateway Service***:
 
 ~~~shell
 $ mvn clean package -f /projects/labs/gateway-vertx/
@@ -198,7 +200,7 @@ $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
 Once deployed, check your javascript console that the *404 error* has disappeared.
-In Kiali Graph, the Gateway Service is now green and you can see the new `Cart Service` is now present! 
+In Kiali Graph, the Gateway Service is now green and you can see the new ***Cart Service*** is now present! 
 
 ![Gateway Fixed]({% image_path gateway-cart-fixed.png %}){:width="700px"}
 

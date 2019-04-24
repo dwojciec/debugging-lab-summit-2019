@@ -1,4 +1,7 @@
 ## "Mr Robot"  Please help me
+
+*20 MINUTES PRACTICE*
+
 After checking logs and traces we need the ability to do live debugging of my application, it's an essential piece in the development process. It's time to enter to the system running. How to penetrate to the secured kubernetes system, I need the POWER of Elliot Alderson. 
 
 ![MrRobot]({% image_path mrrobot.png %}){:width="500px"}

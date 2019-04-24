@@ -1,5 +1,8 @@
 apiVersion: v1
-items:
+kind: Template
+metadata:
+  name: coolstore-debugging-template
+objects:
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
@@ -776,7 +779,6 @@ items:
       metadata:
         annotations:
           openshift.io/generated-by: OpenShiftNewApp
-          sidecar.istio.io/inject: "true"
         labels:
           app: web
           deploymentconfig: web
@@ -784,8 +786,8 @@ items:
       spec:
         containers:
         - env:
-          - name: COOLSTORE_GW_ENDPOINT
-            value: istio-ingressgateway-istio-system
+          - name: COOLSTORE_USER_PREFIX
+            value: /${COOLSTORE_PROJECT}
           image: web:latest
           imagePullPolicy: Always
           name: web
@@ -991,8 +993,6 @@ items:
       spring.datasource.password=catalog
       spring.datasource.driver-class-name=org.postgresql.Driver
       spring.jpa.hibernate.ddl-auto=create
-      spring.datasource.test-on-borrow=true
-      spring.datasource.validation-query=SELECT 1
   kind: ConfigMap
   metadata:
     name: catalog
@@ -1133,7 +1133,7 @@ items:
 - apiVersion: networking.istio.io/v1alpha3
   kind: Gateway
   metadata:
-    name: gateway-gateway
+    name: istio-gateway
   spec:
     selector:
       istio: ingressgateway # use Istio default gateway implementation
@@ -1152,16 +1152,20 @@ items:
     hosts:
     - "*"
     gateways:
-    - gateway-gateway
+    - istio-gateway
     http:
     - match:
       - uri:
-          prefix: /api
+          prefix: /${COOLSTORE_PROJECT}/api
+      rewrite:
+        uri: "/api"
       route:
       - destination:
           port:
             number: 8080
           host: gateway
-kind: List
-metadata:
-selfLink: ""
+parameters:
+- description: Coolstore Project Name
+  name: COOLSTORE_PROJECT
+  value: coolstore
+  required: true
