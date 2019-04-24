@@ -1,8 +1,8 @@
 ## "Bird Box"... Not Today!!
 
-*20 MINUTES PRACTICE*
+*15 MINUTES PRACTICE*
 
-The ***Mysterious Application*** in your *Developer Workspaces* is now up and running. You can see that it is composed of several components, but so far, you have no clue about how the application is working.
+The ***Mysterious Application*** in your *Developer Workspaces* is now up and running. It is composed of several components, but so far, you have no clue about how the application is working.
 Going all over this application and debugging it completely blindfolded is time consuming and a crazy bid as Malorie does in *Bird Box*.
 
 ![BirdBox]({% image_path birdbox.png %}){:width="300px"}
@@ -34,7 +34,7 @@ Log in to the Kiali console as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
 After you log in, **click on the Graph link** in the left navigation and enter the following configuration:
 
  * Namespace: **{{COOLSTORE_PROJECT}}**
- * Display: **check 'Traffic Animation**
+ * Display: **check 'Traffic Animation'**
  * Fetching: **Last min**
 
 ![Kiali - Graph]({% image_path kiali-graph.png %}){:width="700px"}
@@ -45,11 +45,11 @@ Even if the application *seemed* working fine, there is a problem in the ***Gate
 
 ![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="300px"}
 
-Open the Javascript Console from your browser, and you will find a 404 error when calling the `gateway/api/cart` API.
+Open the Javascript Console from your browser, and you will find a **404 error** when calling the ***'gateway/api/cart'** API.
 
 ![Gateway Error]({% image_path gateway-cart-missing.png %}){:width="700px"}
 
-Indeed, when you check the APIs exposed by the gateway, you cannot find any `/api/cart/id-*` one.
+Indeed, when you check the APIs exposed by the gateway, you cannot find any **'/api/cart/id-*'** one.
 
 Let's fix it!!
 
@@ -199,7 +199,7 @@ $ mvn clean package -f /projects/labs/gateway-vertx/
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-Once deployed, check your javascript console that the *404 error* has disappeared.
+Once deployed, check your javascript console that the **404 error** has disappeared.
 In Kiali Graph, the Gateway Service is now green and you can see the new ***Cart Service*** is now present! 
 
 ![Gateway Fixed]({% image_path gateway-cart-fixed.png %}){:width="700px"}

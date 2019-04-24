@@ -22,7 +22,7 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 #### What are you hidding, Mr/Mrs *Application*?
 
-From the [Kiali Console]({{ KIALI_URL }}), `click on the Distributed Tracing` link in the left navigation and enter the following configuration:
+From the [Kiali Console]({{ KIALI_URL }}), **click on the Distributed Tracing link** in the left navigation and enter the following configuration:
 
  * Select a Namespace: **{{COOLSTORE_PROJECT}}**
  * Select a Service: **gateway**
@@ -154,7 +154,7 @@ $ mvn clean package -f /projects/labs/gateway-vertx
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-`Go back to Distributed Tracing` menu from [Kiali Console]({{ KIALI_URL }}) and see the result.
+***Go back to Distributed Tracing menu*** from [Kiali Console]({{ KIALI_URL }}) and see the result.
 Now you have the aggreate trace for one request and it is much more better.
 On the left hand side, you have information like the duration.
 One call takes more than 400ms which you could judge as *normal* but ...
@@ -189,10 +189,10 @@ public List<Product> getAll() {
 ~~~
 
 And yes, this burns your eyes, right?! Basically nobody could understand what the developer attempted to achieve but we do not have the time for that.
-This piece of code is a part of the `getAll()` method which returns the list of all products from the database. 
+This piece of code is a part of the ***getAll()*** method which returns the list of all products from the database. 
 As you are an expert of Java 8, you are about to create a masterpiece by both simplifying the code and increasing performance. 
 
-Replace the content of the `getAll()` method as following:
+Replace the content of the ***getAll()*** method as following:
 
 ~~~java
     public List<Product> getAll() {

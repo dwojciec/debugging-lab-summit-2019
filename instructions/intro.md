@@ -117,7 +117,7 @@ Once successfully built, deployed and runned on Openshift, the **6 pods** of you
 
 ![oc login]({% image_path openshift-console-application.png%}){:width="500px"}
 
-Point your browser at the Web UI route url. You should be able to see the CoolStore with all 
+Point your browser at the Web UI route url. You should be able to see the Coolstore Application with all 
 products and their inventory status.
 
 ![CoolStore Shop]({% image_path coolstore-web.png %}){:width="840px"}
