@@ -1,8 +1,8 @@
 ## "Dream Within a Dream"
 
-*15 MINUTES PRACTICE*
+*20 MINUTES PRACTICE*
 
-As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strategy* called **Distributed Tracing** using Red Hat Openshift Container Platform to infiltrate the application traces and extract valuable information to solve the issues
+As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strategy* called **Distributed Tracing** using Red Hat OpenShift Container Platform to infiltrate the application traces and extract valuable information to solve the issues
 
 ![Inception]({% image_path inception.jpg %}){:width="300px"}
 
@@ -20,6 +20,8 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 [Kiali](https://www.kiali.io) includes [Jaeger Tracing](https://www.jaegertracing.io) to provide distributed tracing out of the box.
 
+> Because of certificates issues, you need first to access the main [Jaeger Console]({{ JAEGER_URL }}) to use it through Kiali.
+
 #### What are you hidding, Mr/Mrs *Application*?
 
 From the [Kiali Console]({{ KIALI_URL }}), **click on the Distributed Tracing link** in the left navigation and enter the following configuration:
@@ -28,12 +30,14 @@ From the [Kiali Console]({{ KIALI_URL }}), **click on the Distributed Tracing li
  * Select a Service: **gateway**
  * Then click on the **magnifying glass** on the right
 
-![Jaeger - Traces View]({% image_path jaeger-trace-2spans-view.png %}){:width="700px"}
+![Jaeger - Traces View]({% image_path jaeger-query.png %}){:width="800px"}
 
-By default, Service Mesh automatically sends collected tracing data to Jaeger, so that we are able to only see individual span (one-to-one service call).
+By default, **Service Mesh** automatically sends collected tracing data to Jaeger, so that we are able to **only see individual trace** (one-to-one service call).
 
-* 1 span for ***Gateway Service*** -> ***Catalog Service***
-* 7 spans for ***Gateway Service*** -> ***Inventory Service***
+* 1 individual trace for ***Gateway Service*** -> ***Catalog Service***
+* 7 individual traces for ***Gateway Service*** -> ***Inventory Service***
+
+![Jaeger - Traces View]({% image_path jaeger-trace-2spans-view.png %}){:width="800px"}
 
 As you have called several times the ***Gateway Service*** through the Web UI, you find much more than 8 spans in Jaeger and you cannot easily observe the entire trace for an end-to-end request.
 
@@ -43,7 +47,7 @@ As you have called several times the ***Gateway Service*** through the Web UI, y
 
 Let's enable Distributed Context Propagation from the ***Gateway Service***.
 
-First, you are going to intercept the following header creating by Service Mesh in order to add them into the outbound requests:
+First, you are going to intercept the following header creating by **Service Mesh** in order to add them into the outbound requests:
 
  * x-request-id
  * x-b3-traceid
@@ -155,19 +159,24 @@ $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
 ***Go back to Distributed Tracing menu*** from [Kiali Console]({{ KIALI_URL }}) and see the result.
-Now you have the aggreate trace for one request and it is much more better.
+Now you have the aggregated traces and it is much more better.
+
+![Jaeger - Trace Delay View]({% image_path jaeger-trace-delay-view.png %}){:width="700px"}
+
 On the left hand side, you have information like the duration.
-One call takes more than 400ms which you could judge as *normal* but ...
+One request takes **more than 400ms** which you could judge as *normal* but ...
 
-Let’s click on a trace title bar.
+**Let’s click on a trace title bar.**
 
-![Jaeger - Trace Detail View]({% image_path jaeger-trace-delay-detail-view.png %}){:width="700px"}
+![Jaeger - Trace Delay Detail View]({% image_path jaeger-trace-delay-detail-view.png %}){:width="700px"}
 
 Interesting... The major part of a call is consuming by the ***Catalog Service***.
 So let's have a look on its code. 
-Go through the **catalog-spring-boot** source code and find the following piece of code.
+Go through the **catalog-spring-boot** project and find the following piece of code:
 
 ~~~java
+@ResponseBody
+@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public List<Product> getAll() {
     Spliterator<Product> products = repository.findAll().spliterator();
     Random random = new Random();
@@ -195,6 +204,8 @@ As you are an expert of Java 8, you are about to create a masterpiece by both si
 Replace the content of the ***getAll()*** method as following:
 
 ~~~java
+    @ResponseBody
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getAll() {
         Spliterator<Product> products = repository.findAll().spliterator();
         return StreamSupport.stream(products, false).collect(Collectors.toList());
@@ -203,9 +214,10 @@ Replace the content of the ***getAll()*** method as following:
 
 > Do not forget to import the missing packages.
 
-Now let's push the new version of the source code.
+Now let's check and push the new version of the source code.
 
 ~~~shell
+$ mvn package -f /projects/labs/catalog-spring-boot/
 $ oc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ --follow
 ~~~
 
