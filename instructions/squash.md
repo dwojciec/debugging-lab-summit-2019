@@ -1,4 +1,4 @@
-## "Mr Robot"  Please help me
+## "Mr Robot", Please Help Me!
 
 *20 MINUTES PRACTICE*
 
@@ -8,31 +8,11 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 [Source: https://www.usanetwork.com/mrrobot/photos/eps22init1asec](https://www.usanetwork.com/mrrobot/photos/eps22init1asec)
 
-## What is SQUASH ?
+#### What is Kibana?
 
-[Solo.io](https://solo.io/) created [SQUASH](https://github.com/solo-io/squash) for their use, to assist on the development of their own projects like [Gloo](https://www.solo.io/glooe), a Next Generation API Gateway, and [Supergloo](https://www.solo.io/copy-of-glooe), a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
-[Squash](https://squash.solo.io) is a distributed multi-language debugger that allows s to step by step debug our application.
-[Solo.io](https://solo.io/) mission is to build tools and help people to adopt Service Mesh.
+![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="200px"}
 
-### For java developers
-Let’s take a look at the flow below, which is for debugging a Java application, for example:
-
-![Java]({% image_path java_squash.png %}){:width="700px"}
-
-Squash brings excellent value to Java developers in that it will automatically find the debug port that is specified when the JVM starts. After the port is located, it uses port forward and then relies on the IDE’s capability to leverage JDWP.
-
-
-### For Go developers
-For Go software engineers that run and develop for Kubernetes, it’s fair to say that it’s a must-have. There are a [few ways to debug a Go application in Kubernetes](https://kubernetes.io/blog/2018/05/01/developing-on-kubernetes/), but none is as smooth and considerate of enterprise scenarios as Squash.
-
-![Go]({% image_path go_squash.png %}){:width="700px"}
-
-
-## Debugging Applications
-
-In this lab you will debug the CoolStore application using Squash debugging tool and look into line-by-line code execution as the code runs inside a container on OpenShift.
-
-
+<TO BE COMPLETED - what it is and the benefits for a Microservice Architecture>
 
 #### Investigate The Bug
 
@@ -42,80 +22,66 @@ CoolStore application seems to have a bug that causes the inventory status for o
 
 This is not an expected behavior!
 
-The Gateway pod is composed of **vertx** container and **istio-proxy** container.
+Let's start our investigation from the application logs!
+Log in to the [Kibana Console]({{ KIBANA_URL }}) as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
 
-~~~shell
-$ oc logs dc/gateway -c vertx| grep -i error
+![Kibana - Console]({% image_path kibana-console.png %}){:width="600px"}
 
-...
-WARNING: Inventory error for 444436: status code 204
-...
-~~~
+After you log in, enter the following configuration:
 
-Oh! Something seems to be wrong with the response the API Gateway has received from the 
-Inventory API for the product id `444436`. 
+ * Selected Fields: **'kubernetes.pod_name'**, **'message'**
+ * Search: **'message:(inventory AND error)'**
 
-Look into the Inventory pod logs to investigate further and see if you can find more  
-information about this bug:
+![Kibana - Search]({% image_path kibana-search.png %}){:width="200px"}
 
+**Push the 'Enter' button**, you will get the following results:
 
-~~~shell
-$ oc logs dc/inventory -c thorntail-v2 | grep ERROR
-~~~
+![Kibana - Error Result]({% image_path kibana-error-result.png %}){:width="600px"}
 
-There doesn't seem to be anything relevant to the `invalid response` error that the 
-API Gateway received either! 
+Oh! Something seems to be wrong with the response the ***Gateway Service*** has received from the ***Inventory Service*** for the product id **'444436'**. 
+But there doesn't seem to be anything relevant to the **invalid response** error at the ***Inventory Service*** level! 
 
-Invoke the Inventory API using `curl` for the suspect product id to see what actually 
-happens when API Gateway makes this call:
+**Go back to Distributed Tracing menu** from [Kiali Console]({{ KIALI_URL }}). **Select one of the Distributed Trace then on Search field enter the product id '444436'**. One span should be highlighted in *light yellow*.
 
-> You can find out the Inventory route url using `oc get route inventory`. Replace 
-> `{{INVENTORY_ROUTE_HOST}}` with the Inventory route url from your project.
+![Jaeger - Trace Inventory ]({% image_path jaeger-trace-inventory.png %}){:width="600px"}
 
-~~~shell
-$ curl --verbose http://{{INVENTORY_ROUTE_HOST}}/api/inventory/444436
-~~~
-or use **Command** names **curl inventory GET API**
-![Icons]({% image_path curl-inventory-1.png %}){:width="700px"}
+**Expand the 'inventory.{{COOLSTORE_PROJECT}}' span** in order to get more detail.
 
-> You can use `curl -v` to see all the headers sent and received. You would received 
-> a `HTTP/1.1 204 No Content` response for the above request.
-example
+![Jaeger - Trace Inventory ]({% image_path jaeger-trace-inventory-details.png %}){:width="800px"}
 
-~~~
- curl http://inventory-coolstoreXX.apps.nantes-YYYY.openshiftworkshop.com/api/inventory/444436 -v
-* About to connect() to inventory-coolstoreXX.apps.nantes-YYYY.openshiftworkshop.com port 80 (#0)
-*   Trying 52.58.29.86...
-* Connected to inventory-coolstoreXX.apps.nantes-YYYY.openshiftworkshop.com (52.58.29.86) port 80 (#0)
-> GET /api/inventory/444436 HTTP/1.1
-> User-Agent: curl/7.29.0
-> Host: inventory-coolstoreXX.apps.nantes-YYYY.openshiftworkshop.com
-> Accept: */*
->
-< HTTP/1.1 204 No Content
-< date: Mon, 15 Apr 2019 09:40:58 GMT
-< x-envoy-upstream-service-time: 7
-< server: istio-envoy
-< x-envoy-decorator-operation: inventory.coolstoreXX.svc.cluster.local:8080/*
-< Set-Cookie: 99431852768157cf108d330fd0eca9b9=e9242f754299538f7921ed6aa430982c; path=/; HttpOnly
-< Cache-control: private
-<
-* Connection #0 to host inventory-coolstoreXX.apps.nantes-YYYY.openshiftworkshop.com left intact
-
-~~~
-
-
-No response came back and that seems to be the reason the inventory status is not displayed 
+No response came back from ***Inventory Service*** for the product id **'444436'** and that seems to be the reason the inventory status is not displayed 
 on the web interface.
 
-Let's debug the Inventory service to get to the bottom of this!
+Let's debug the ***Inventory Service*** to get to the bottom of this!
 
-#### Debugging with Squashctl  
+#### What is Squash ?
+
+![Squash Logo]({% image_path squash-logo.png %}){:width="150px"}
+
+[Solo.io](https://solo.io/) created [SQUASH](https://github.com/solo-io/squash) for their use, to assist on the development of their own projects like [Gloo](https://www.solo.io/glooe), a Next Generation API Gateway, and [Supergloo](https://www.solo.io/copy-of-glooe), a service mesh orchestration platform. Squash can be your daily friend on this journey, and for two fundamental reasons: made for cloud-native workloads and enterprise security concerns.
+[Squash](https://squash.solo.io) is a distributed multi-language debugger that allows s to step by step debug our application.
+[Solo.io](https://solo.io/) mission is to build tools and help people to adopt Service Mesh.
+
+#### For Java developers
+Let’s take a look at the flow below, which is for debugging a Java application, for example:
+
+![Java]({% image_path java_squash.png %}){:width="700px"}
+
+Squash brings excellent value to Java developers in that it will automatically find the debug port that is specified when the JVM starts. After the port is located, it uses port forward and then relies on the IDE’s capability to leverage JDWP.
+
+#### For Go developers
+For Go software engineers that run and develop for Kubernetes, it’s fair to say that it’s a must-have. There are a [few ways to debug a Go application in Kubernetes](https://kubernetes.io/blog/2018/05/01/developing-on-kubernetes/), but none is as smooth and considerate of enterprise scenarios as Squash.
+
+![Go]({% image_path go_squash.png %}){:width="700px"}
+
+#### Debugging with Squashctl
 
 Squash brings the power of modern popular debuggers to developers of microservices apps that run on container orchestrator platforms. Choose which containers, pods, services or images you want to debug, and Squash will let you set breakpoints, step through your code while jumping between microservices, follow variable values on the fly, and change these values during run time. 
 
 Using **squashctl** on Inventory by running the following inside the `/ 
 directory in the CodeReady Workspaces **Terminal** window:
+
+In CodeReady Workspaces, use the ***Commands Palette*** and **click on DEBUG > Squash Version**
 
 ~~~shell
 $ squashctl --version
@@ -125,19 +91,21 @@ squashctl version 0.5.8, created 2019-04-09.21:00:55
 The Java image on OpenShift has built-in support for remote debugging and it can be enabled by setting the **JAVA_DEBUG=true** environment variables on the deployment config for the pod that you want to remotely debug.
 
 ~~~shell
-$ cd /projects/labs/inventory-thorntail
 $ oc set env dc/inventory JAVA_DEBUG=true
 $ oc get pods -lapp=inventory,deploymentconfig=inventory
 NAME                           READY     STATUS    RESTARTS   AGE
 inventory-1-l22lz              2/2       Running   2          26m
 ~~~
 
+The status should be **Running** and there should be **2/2** pods in the **Ready** column. 
+
 Using *squashctl* on the **Terminal** window or you can use the **Command** **Debug Squash Inventory**
 
 ~~~shell
-$ squashctl --machine --namespace coolstoreXX --debugger java --squash-namespace infraXX
-? Select a pod inventory-3-lqvmt
-{"PortForwardCmd":"kubectl port-forward inventory-3-lqvmt :5005 -n coolstoreXX"}
+$ squashctl --namespace coolstoreXX --debugger java-port --squash-namespace infraXX
+Forwarding from 127.0.0.1:34930 -> 5005
+Forwarding from [::1]:34930 -> 5005
+Handling connection for 34930
 
 ~~~
 or 
@@ -165,8 +133,6 @@ port open so that you can start debugging remotely.
 You can have a look in the infraXX project to see the pod created by squash.
 
 ![Squash pod]({% image_path debug-squash-pod.png %}){:width="700px"}
-
-
 
 #### Remote Debug with CodeReady Workspaces
 

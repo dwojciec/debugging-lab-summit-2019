@@ -158,7 +158,7 @@ $ mvn clean package -f /projects/labs/gateway-vertx
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
 ~~~
 
-***Go back to Distributed Tracing menu*** from [Kiali Console]({{ KIALI_URL }}) and see the result.
+**Go back to Distributed Tracing menu** from [Kiali Console]({{ KIALI_URL }}) and see the result.
 Now you have the aggregated traces and it is much more better.
 
 ![Jaeger - Trace Delay View]({% image_path jaeger-trace-delay-view.png %}){:width="700px"}

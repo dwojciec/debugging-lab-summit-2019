@@ -29,7 +29,7 @@ You should see the Kiali console login screen.
 
 ![Kiali - Log In]({% image_path kiali-login.png %}){:width="500px"}
 
-Log in to the Kiali console as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
+Log in as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
 
 After you log in, **click on the Graph link** in the left navigation and enter the following configuration:
 
