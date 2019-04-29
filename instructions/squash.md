@@ -11,15 +11,17 @@ After checking logs and traces we need the ability to do live debugging of my ap
 #### What is Kibana?
 
 ![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="200px"}
+
 OpenShift provides a logging solution based on ElasticSearch, Fluentd, and [Kibana](https://en.wikipedia.org/wiki/Kibana) :
 
 *  **Fluentd** which serves as both the collector and the normalizer, 
 *  **Elasticsearch** serves as the warehouse, and 
-*  **Kibana** is the visualizer (web UI). **Kibana** is a Node.js application.  It works very well with Elasticsearch and is tightly coupled to it. 
+*  **Kibana** is the visualizer (web UI). **Kibana** is a Node.js application. It works very well with Elasticsearch and is tightly coupled to it. 
 
 The logging system can provide two views: 
-* Project logs - access controlled view to specific project logs for running containers and project resources. Our case in this Workshop. 
-* Ops view - aggregate logging of all projects across the cluster, in addition to platform logs (nodes, docker, and masters, for example). 
+
+* **Project logs** - access controlled view to specific project logs for running containers and project resources. Our case in this Workshop. 
+* **Ops view** - aggregate logging of all projects across the cluster, in addition to platform logs (nodes, docker, and masters, for example). 
 
 [Additionnal information](https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html#aggregate-logging-kibana)
 
