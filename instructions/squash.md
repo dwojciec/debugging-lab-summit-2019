@@ -11,7 +11,8 @@ After checking logs and traces we need the ability to do live debugging of my ap
 #### What is Kibana?
 
 ![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="200px"}
-OpenShift provides a logging solution based on ElasticSearch, Fluentd, and Kibana.: 
+OpenShift provides a logging solution based on ElasticSearch, Fluentd, and [Kibana](https://en.wikipedia.org/wiki/Kibana) :
+
 *  **Fluentd** which serves as both the collector and the normalizer, 
 *  **Elasticsearch** serves as the warehouse, and 
 *  **Kibana** is the visualizer (web UI). **Kibana** is a Node.js application.  It works very well with Elasticsearch and is tightly coupled to it. 
@@ -22,9 +23,8 @@ The logging system can provide two views:
 
 [Additionnal information](https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html#aggregate-logging-kibana)
 
+Logs management plays a vital role when we encounter an error in the application. If we do not manage the logs, it will be difficult in any application, especially in microservices architecture to find the error and fix it. For our application with lots of microservices we have to identify interesting traces and Kibana is offering an nice User Interface with search field to explore and to analyze logs files easily. Whenever we get some error in the application(s), we can get the error details and analyze them in a simple way.
 
-
-<TO BE COMPLETED - what it is and the benefits for a Microservice Architecture>
 
 #### Investigate The Bug
 
@@ -237,8 +237,8 @@ returned instead of `null`.
 Click on the _Resume_ icon to continue the code execution and then on the stop icon to 
 end the debug session.
 
-#### Additionnal Squash command 
-To delete all planks
+#### Additionnal Squash command (normally not needed here)
+To delete planks created in our namespace
 
 ~~~
 squashctl utils delete-planks --squash-namespace infraXX
@@ -289,3 +289,186 @@ the inventory status as _Not in Stock_.
 ![Inventory Status Bug Fixed]({% image_path debug-coolstore-bug-fixed.png %}){:width="800px"}
 
 Well done and congratulations for completing all the labs.
+
+#### Optional part - To go futher.
+
+To see the added value of squash we decided to deploy a new version of the catalog but here written in [GO](https://golang.org/) language.
+In this lab you will see how you can use Site Mesh to do some A/B testing using and route traffic between 2 versions of the Catalog service.
+[A/B testing](https://en.wikipedia.org/wiki/A/B_testing) allows running multiple versions of a functionality in parallel; and using analytics of the user behavior it is possible to determine which version is the best. It is also possible to launch the new features only for a small set of users, to prepare the general avalability of a new feature.
+
+#### Deploying the new Catalog service
+
+A new ***Catalog Service v2*** has been created, this service is developed in [Golang](https://golang.org/) and available in the following directory:
+
+/projects/labs/catalog-go
+
+This service use the same business logic except that all product descriptions are returned in uppercase.
+
+Let's deploy the service directly from the catalog-go directory using the `oc new-app` command.
+
+In the terminal window type the following command:
+
+~~~shell
+$ oc new-app /projects/labs/ --strategy=docker --context-dir=catalog-go --name=catalog-v2 --labels app=catalog,group=com.redhat.cloudnative,provider=fabric8,version=2.0 
+$ oc start-build catalog-v2 --from-dir /projects/labs/catalog-go/ --follow 
+ 
+~~~
+or using the **Command** **Options: Catalog in Go**
+![Catalog-in-Go]({% image_path Catalog-in-Go.png %}){:width="450px"}
+
+> **Note**: To simplify the lab, we use the same labels for ***catalog*** and ***catalog-v2***, since they are used for the service routing.
+
+Service Mesh will be used to route the traffic between the catalog service v1 and v2, so you have to add the Istio sidecar to the ***Catalog Service v2*** using the following command:
+
+~~~shell
+$ oc patch dc/catalog-v2 --patch \
+  '{"spec": {"template": {"metadata": {"annotations": {"sidecar.istio.io/inject": "true"}}}}}'
+~~~
+
+Note: the command above **Options: Catalog in Go** is executing the "patching" of the deployment config of catalog-v2. 
+
+To confirm that the application is successfully deployed, run this command:
+
+~~~shell
+$ oc get pods -lapp=catalog,deploymentconfig=catalog-v2
+NAME                 READY     STATUS    RESTARTS   AGE
+catalog-v2-2-7zsxb   2/2       Running   0          1m
+~~~
+
+The status should be **Running** and there should be **2/2** pods in the **Ready** column.
+Wait few seconds that the application restarts.
+
+
+#### Enabling A/B Testing
+
+[A/B Testing](https://en.wikipedia.org/wiki/A/B_testing) allows to run in parallel two versions of an application with one single variant (usually visual) and to collect metrics in order to determine the variant with the best effect of the user behavior.
+
+The implementation of such procedure is one are the advantages coming with OpenShift Service Mesh.
+
+
+Let's now create the ***Destination Rule*** resource.
+
+* A ***Destination Rule*** defines policies that apply to traffic intended for a service after routing has occurred. These rules specify configuration for load balancing, connection pool size from the sidecar, and outlier detection settings to detect and evict unhealthy hosts from the load balancing pool.
+
+In the Terminal window, issue the following command:
+
+~~~shell
+$ cat << EOF | oc create -f -
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: catalog
+spec:
+  host: catalog
+  subsets:
+  - labels:
+      version: "v1.0"
+    name: "version-springboot"
+  - labels:
+      version: "2.0"
+    name: "version-go"
+EOF
+~~~
+
+Now you have created a ***Destination Rule*** for ***Catalog Service*** and ***Catalog Service v2***.
+
+From Kiali UI using Services -> catalog -> Destination Rules
+![Destination-Rule]({% image_path Destination-Rule.png %}){:width="900px"}
+
+The last step is to define the rules to distribute the traffic between the services. 
+
+* A **VirtualService** defines a set of traffic routing rules to apply when a host is addressed. Each routing rule defines matching criteria for traffic of a specific protocol. If the traffic is matched, then it is sent to a named destination service (or subset/version of it) defined in the registry.
+
+In the Terminal window, issue the following command:
+
+~~~shell
+$ cat << EOF | oc create -f -
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: catalog
+spec:
+  hosts:
+    - catalog
+  http:
+  - route:
+    - destination:
+        host: catalog
+        subset: "version-springboot"
+      weight: 50
+    - destination:
+        host: catalog
+        subset: "version-go"
+      weight: 50
+EOF
+~~~
+
+Doing so, you route **50%** of the **HTTP traffic** to pods of the ***Catalog Service*** *(subset "version-springboot" ie label "version: v1.0")* and the **50%** remaining to pods of the ***Catalog Service v2*** *(subset "version-go" ie label "version: 2.0")*.
+
+From Kiali UI using Services -> catalog -> Virtual Services
+![Virtual-services]({% image_path Virtual-services.png %}){:width="900px"}
+
+
+#### Generate HTTP traffic.
+
+Let's now see the A/B testing with Site Mesh in action.
+First, we need to generate HTTP traffic by sending several requests to the ***Gateway Service*** from the ***Istio Gateway***
+
+In CodeReady Workspaces, click on ***Commands Palette*** and click on **RUN > runGatewayService**
+![Commands Palette - RunGatewayService]({% image_path  codeready-command-run-gateway-service.png %}){:width="600px"}
+
+You likely see *'Gateway => Catalog Spring Boot (v1)'* or *'Gateway => Catalog GoLang (v2)'*
+
+![Terminal - RunGatewayService]({% image_path  codeready-run-gateway-50-50.png %}){:width="900px"}
+
+> You can also go to the Web interface and refresh the page to see that product descriptions is sometimes in uppercase (v2) or not (v1).
+
+Go to Kiali to see the traffic distribution between Catalog v1 and v2.
+
+From the [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax** with your dedicated project)*, `click on the 'Graph' link` in the left navigation and enter the following configuration:
+
+ * Namespace: **{{COOLSTORE_PROJECT}}**
+ * Display: **check 'Traffic Animation'**
+ * Edge Label: **Requests percent of total**
+ * Fetching: **Last 5 min**
+
+![Kiali- Graph]({% image_path kiali-abtesting-50-50.png %}){:width="700px"}
+
+You can see that the traffic between the two version of the ***Catalog*** is shared equitably (at least very very close). 
+
+After one week trial, you have collected enough information to confirm that product descriptions in uppercase do increate sales rates. So you will route all the traffic to ***Catalog Service v2***. Go back to the Terminal and run the following command:
+
+~~~shell
+$ cat << EOF | oc replace -f -
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: catalog
+spec:
+  hosts:
+    - catalog
+  http:
+  - route:
+    - destination:
+        host: catalog
+        subset: "version-springboot"
+      weight: 0
+    - destination:
+        host: catalog
+        subset: "version-go"
+      weight: 100
+EOF
+~~~
+
+Now, you likely see only *'Gateway => Catalog GoLang (v2)'* in the *'runGatewayService'* terminal.
+
+![Terminal - RunGatewayService]({% image_path  codeready-run-gateway-100.png %}){:width="900px"}
+
+And from [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax** with your dedicated project)*, you can visualize that **100%** of the traffic is switching gradually to ***Catalog Service v2***.
+
+![Kiali- Graph]({% image_path kiali-abtesting-100.png %}){:width="700px"}
+
+That's all for this lab! You are ready to move on to the next lab.
