@@ -11,6 +11,18 @@ After checking logs and traces we need the ability to do live debugging of my ap
 #### What is Kibana?
 
 ![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="200px"}
+OpenShift provides a logging solution based on ElasticSearch, Fluentd, and Kibana.: 
+*  **Fluentd** which serves as both the collector and the normalizer, 
+*  **Elasticsearch** serves as the warehouse, and 
+*  **Kibana** is the visualizer (web UI). **Kibana** is a Node.js application.  It works very well with Elasticsearch and is tightly coupled to it. 
+
+The logging system can provide two views: 
+* Project logs - access controlled view to specific project logs for running containers and project resources. Our case in this Workshop. 
+* Ops view - aggregate logging of all projects across the cluster, in addition to platform logs (nodes, docker, and masters, for example). 
+
+[Additionnal information](https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logging.html#aggregate-logging-kibana)
+
+
 
 <TO BE COMPLETED - what it is and the benefits for a Microservice Architecture>
 
@@ -67,12 +79,16 @@ Let’s take a look at the flow below, which is for debugging a Java application
 
 ![Java]({% image_path java_squash.png %}){:width="700px"}
 
+[source Medium - Squash, the definitive cloud-native debugging tool](https://medium.com/solo-io/squash-the-definitive-cloud-native-debugging-tool-9d10308fe1da)
+
 Squash brings excellent value to Java developers in that it will automatically find the debug port that is specified when the JVM starts. After the port is located, it uses port forward and then relies on the IDE’s capability to leverage JDWP.
 
 #### For Go developers
 For Go software engineers that run and develop for Kubernetes, it’s fair to say that it’s a must-have. There are a [few ways to debug a Go application in Kubernetes](https://kubernetes.io/blog/2018/05/01/developing-on-kubernetes/), but none is as smooth and considerate of enterprise scenarios as Squash.
 
 ![Go]({% image_path go_squash.png %}){:width="700px"}
+
+[source Medium - Squash, the definitive cloud-native debugging tool](https://medium.com/solo-io/squash-the-definitive-cloud-native-debugging-tool-9d10308fe1da)
 
 #### Debugging with Squashctl
 
