@@ -471,4 +471,25 @@ And from [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax
 
 ![Kiali- Graph]({% image_path kiali-abtesting-100.png %}){:width="700px"}
 
+#### How to debug GO code with gdb using squash
+
+
+~~~shell
+$ oc get pod | grep v2
+$ squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
+~~~
+
+![debug-gdb-1]({% image_path debug-gdb-1.png %}){:width="900px"}
+
+![debug-gdb-2]({% image_path debug-gdb-2.png %}){:width="900px"}
+
+![debug-gdb-3]({% image_path debug-gdb-3.png %}){:width="900px"}
+Configure the remote debugger and click on the **Save** button:
+
+* Check **Connect to process on workspace machine**
+* Port: `35398`
+Now you can [debug GO using gdb](https://golang.org/doc/gdb)
+
+![debug-gdb-4]({% image_path debug-gdb-4.png %}){:width="900px"}
+
 That's all for this lab! You are ready to move on to the next lab.
