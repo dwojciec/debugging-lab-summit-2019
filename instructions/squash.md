@@ -103,7 +103,7 @@ In CodeReady Workspaces, use the ***Commands Palette*** and **click on DEBUG > S
 
 ~~~shell
 $ squashctl --version
-squashctl version 0.5.8, created 2019-04-09.21:00:55
+squashctl version 0.5.12, created 2019-04-28.12:31:17
 ~~~
 
 The Java image on OpenShift has built-in support for remote debugging and it can be enabled by setting the **JAVA_DEBUG=true** environment variables on the deployment config for the pod that you want to remotely debug.
