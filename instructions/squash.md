@@ -480,6 +480,32 @@ And from [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax
 $ oc get pod | grep v2
 $ squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
 ~~~
+result will be something like :
+~~~shell
+squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
+Attaching debugger
+? Select a pod catalog-v2-2-6hck9
+? Select a container catalog-v2
+? Going to attach gdb to pod catalog-v2-2-6hck9. continue? Yes
+pods "plank4xpnc" not found
+Squash will create a debugger pod in your target pod's namespace.
+Creating service account squash-plank in namespace infra22
+
+Creating cluster role squash-plank-cr
+
+Creating cluster role binding squash-plank-crb
+
+All squashctl permission resources created.
+
+Pod creating
+Pod creating
+Pod creating
+Forwarding from 127.0.0.1:33080 -> 39714
+Forwarding from [::1]:33080 -> 39714
+gdb debug port available on local port 33080.
+~~~
+
+
 
 ![debug-gdb-1]({% image_path debug-gdb-1.png %}){:width="900px"}
 
