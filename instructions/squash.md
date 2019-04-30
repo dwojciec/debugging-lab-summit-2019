@@ -515,7 +515,7 @@ gdb debug port available on local port 33080.
 Configure the remote debugger and click on the **Save** button:
 
 * Check **Connect to process on workspace machine**
-* Port: `35398`
+* Port: `33080`
 Now you can [debug GO using gdb](https://golang.org/doc/gdb)
 
 ![debug-gdb-4]({% image_path debug-gdb-4.png %}){:width="900px"}
