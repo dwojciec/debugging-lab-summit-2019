@@ -26,7 +26,7 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 From the [Kiali Console]({{ KIALI_URL }}), **click on the Distributed Tracing link** in the left navigation and enter the following configuration:
 
- * Select a Namespace: **{{COOLSTORE_PROJECT}}**
+ * Select a Namespace: **{{ COOLSTORE_PROJECT }}**
  * Select a Service: **gateway**
  * Then click on the **magnifying glass** on the right
 

@@ -29,11 +29,11 @@ You should see the Kiali console login screen.
 
 ![Kiali - Log In]({% image_path kiali-login.png %}){:width="500px"}
 
-Log in as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
+Log in as `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 
 After you log in, **click on the Graph link** in the left navigation and enter the following configuration:
 
- * Namespace: **{{COOLSTORE_PROJECT}}**
+ * Namespace: **{{ COOLSTORE_PROJECT }}**
  * Display: **check 'Traffic Animation'**
  * Fetching: **Last min**
 
@@ -103,7 +103,7 @@ Have a look to the log of the ***Cart Service*** pod by cliking in the dark blue
 
 **AND YES, IT'S A JAVA APPLICATION!**
 
-You can ensure the proper functioning of the ***Cart Service*** by accessing to {{CART_ROUTE_HOST}} and **click on 'Test it'**.
+You can ensure the proper functioning of the ***Cart Service*** by accessing to {{ CART_ROUTE_HOST }} and **click on 'Test it'**.
 
 ![Cart Service]({% image_path cart-service.png %}){:width="500px"}
 
