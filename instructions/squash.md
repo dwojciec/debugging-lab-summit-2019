@@ -37,7 +37,7 @@ CoolStore application seems to have a bug that causes the inventory status for o
 This is not an expected behavior!
 
 Let's start our investigation from the application logs!
-Log in to the [Kibana Console]({{ KIBANA_URL }}) as `{{OPENSHIFT_USER}}`/`{{OPENSHIFT_PASWORD}}`
+Log in to the [Kibana Console]({{ KIBANA_URL }}) as `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 
 ![Kibana - Console]({% image_path kibana-console.png %}){:width="600px"}
 
@@ -59,7 +59,7 @@ But there doesn't seem to be anything relevant to the **invalid response** error
 
 ![Jaeger - Trace Inventory ]({% image_path jaeger-trace-inventory.png %}){:width="600px"}
 
-**Expand the 'inventory.{{COOLSTORE_PROJECT}}' span** in order to get more detail.
+**Expand the 'inventory.{{ COOLSTORE_PROJECT }}' span** in order to get more detail.
 
 ![Jaeger - Trace Inventory ]({% image_path jaeger-trace-inventory-details.png %}){:width="800px"}
 
@@ -196,10 +196,10 @@ Note that you can use the the following icons to switch between debug and termin
 ![Icons]({% image_path debug-che-window-guide.png %}){:width="700px"}
 
 >  You can find out the Inventory route url using `oc get routes`. Replace 
-> `{{INVENTORY_ROUTE_HOST}}` with the Inventory route url from your project.
+> `{{ INVENTORY_ROUTE_HOST }}` with the Inventory route url from your project.
 
 ~~~
-$ curl --verbose http://{{INVENTORY_ROUTE_HOST}}/api/inventory/444436
+$ curl --verbose http://{{ INVENTORY_ROUTE_HOST }}/api/inventory/444436
 ~~~
 or use **Command** names **curl inventory GET API**
 ![Icons]({% image_path curl-inventory-1.png %}){:width="700px"}
@@ -431,7 +431,7 @@ Go to Kiali to see the traffic distribution between Catalog v1 and v2.
 
 From the [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax** with your dedicated project)*, `click on the 'Graph' link` in the left navigation and enter the following configuration:
 
- * Namespace: **{{COOLSTORE_PROJECT}}**
+ * Namespace: **{{ COOLSTORE_PROJECT }}**
  * Display: **check 'Traffic Animation'**
  * Edge Label: **Requests percent of total**
  * Fetching: **Last 5 min**

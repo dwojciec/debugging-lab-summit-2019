@@ -48,7 +48,7 @@ First, go to [*Mysterious Application*](https://github.com/mcouliba/cloud-native
 
 ![Developer Workspace - Link]({% image_path developer-workspace-link.png %}){:width="800px"}
 
-**Click on it**, login as `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and let's the magic happens...
+**Click on it**, login as `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}` and let's the magic happens...
 
 ![Developer Workspace - Build]({% image_path developer-workspace-build.png %}){:width="600px"}
 
@@ -62,14 +62,14 @@ Once completed, you will have a fully functional CodeReady Workspaces IDE runnin
 
 ## Login to OpenShift
 
-First, you need to access to the OpenShift cluster from [CodeReady Workspaces url]({{CODEREADY_WORKSPACES_URL}}).
+First, you need to access to the OpenShift cluster from [CodeReady Workspaces url]({{ CODEREADY_WORKSPACES_URL }}).
 In CodeReady Workspaces, use the ***Commands Palette*** and **click on OPENSHIFT > oc login**
 
 ![oc login]({% image_path codeready-command-oc-login.png %}){:width="300px"}
 
 > **Command Palette Info**
 >
-> The command `oc login {{OPENSHIFT_CONSOLE_URL}}` is issued using the credentials `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}`
+> The command `oc login {{ OPENSHIFT_CONSOLE_URL }}` is issued using the credentials `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 
 You should get an output in the `oc login` terminal as following:
 
@@ -78,13 +78,13 @@ Login successful.
  
 You have access to the following projects and can switch between them with 'oc project <projectname>':
  
-  * {{COOLSTORE_PROJECT}}
-    {{INFRA_PROJECT}}
+  * {{ COOLSTORE_PROJECT }}
+    {{ INFRA_PROJECT }}
  
-Using project "{{COOLSTORE_PROJECT}}".
-Already on project "{{COOLSTORE_PROJECT}}" on server "{{OPENSHIFT_CONSOLE_URL}}:443".
+Using project "{{ COOLSTORE_PROJECT }}".
+Already on project "{{ COOLSTORE_PROJECT }}" on server "{{ OPENSHIFT_CONSOLE_URL }}:443".
 -----------
-Successful Connected to OpenShift as {{OPENSHIFT_USER}}
+Successful Connected to OpenShift as {{ OPENSHIFT_USER }}
 -----------
 ~~~
 
@@ -103,13 +103,13 @@ In CodeReady Workspaces, use the ***Commands Palette***  and **click on BUILD > 
 >
 > This operation could take 5-10 minutes. Please, be patient :-)
 
-You can observe the build and deployment progress from the [OpenShift Web Console]({{OPENSHIFT_CONSOLE_URL}}).
+You can observe the build and deployment progress from the [OpenShift Web Console]({{ OPENSHIFT_CONSOLE_URL }}).
 
-The first screen you will see is the authentication screen. Enter your username and password `{{OPENSHIFT_USER}}/{{OPENSHIFT_PASWORD}}` and 
+The first screen you will see is the authentication screen. Enter your username and password `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}` and 
 then log in. After you have authenticated to the web console, you will be presented with a
 list of projects that your user has permission to work with. 
 
-**Click on the {{COOLSTORE_PROJECT}} project** to be taken to the project overview page
+**Click on the {{ COOLSTORE_PROJECT }} project** to be taken to the project overview page
 which will list all of the routes, services, deployments, and pods that you have
 running as part of your project.
 
