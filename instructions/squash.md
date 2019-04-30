@@ -418,7 +418,7 @@ From Kiali UI using Services -> catalog -> Virtual Services
 Let's now see the A/B testing with Site Mesh in action.
 First, we need to generate HTTP traffic by sending several requests to the ***Gateway Service*** from the ***Istio Gateway***
 
-In CodeReady Workspaces, click on ***Commands Palette*** and click on **RUN > runGatewayService**
+In CodeReady Workspaces, click on ***Commands Palette*** and click on **RUN > testGatewayService**
 ![Commands Palette - RunGatewayService]({% image_path  codeready-command-run-gateway-service.png %}){:width="600px"}
 
 You likely see *'Gateway => Catalog Spring Boot (v1)'* or *'Gateway => Catalog GoLang (v2)'*
@@ -465,7 +465,7 @@ spec:
 EOF
 ~~~
 
-Now, you likely see only *'Gateway => Catalog GoLang (v2)'* in the *'runGatewayService'* terminal.
+Now, you likely see only *'Gateway => Catalog GoLang (v2)'* in the *'testGatewayService'* terminal.
 
 ![Terminal - RunGatewayService]({% image_path  codeready-run-gateway-100.png %}){:width="900px"}
 
