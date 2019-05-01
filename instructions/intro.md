@@ -67,7 +67,7 @@ In CodeReady Workspaces, use the ***Commands Palette*** and **click on OPENSHIFT
 
 ![oc login]({% image_path codeready-command-oc-login.png %}){:width="300px"}
 
-> **Command Palette Info**
+> **Commands Palette Info**
 >
 > The command `oc login {{ OPENSHIFT_CONSOLE_URL }}` is issued using the credentials `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 
@@ -95,7 +95,7 @@ In CodeReady Workspaces, use the ***Commands Palette***  and **click on BUILD > 
 
 ![oc login]({% image_path codeready-command-build-app.png%}){:width="300px"}
 
-> **Command Palette Info**
+> **Commands Palette Info**
 >
 > First, the `oc create` command creates a list of objects defining the application. 
 > Then, the `oc start-build` commands build container images of all microservices from the local source code 
