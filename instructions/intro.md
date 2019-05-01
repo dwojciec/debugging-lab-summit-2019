@@ -1,4 +1,4 @@
-![Summit Logo]({% image_path redhatsummit2019.jpg %}){:width="200px"}
+![Summit Logo]({% image_path redhatsummit2019.jpg %}){:width="400px"}
 
 ## May 7th, 2019 - 3:45PM - somewhere in Boston, it begins...
 
@@ -27,7 +27,7 @@ Piouf!! Lots of things to do in a short period of time...
 
 *"No Worry Be Happy"*, Red Hat OpenShift Container Platform, Inc is here to help!!
 
-## What is CodeReady Workspaces?
+## What is Red Hat CodeReady Workspaces?
 
 ![CodeReady]({% image_path codeready.png %}){:width="400px"}
 

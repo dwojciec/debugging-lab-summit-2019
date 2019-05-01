@@ -27,7 +27,7 @@ First, you need to access to Kiali.
 Launch a browser and navigate to [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax** from the url with your dedicated project)*. 
 You should see the Kiali console login screen.
 
-![Kiali - Log In]({% image_path kiali-login.png %}){:width="500px"}
+![Kiali - Log In]({% image_path kiali-login.png %}){:width="400px"}
 
 Log in as `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 

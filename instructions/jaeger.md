@@ -8,7 +8,7 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 #### What is Jaeger?
 
-![Jaeger]({% image_path jaeger-logo.png %}){:width="300px"}
+![Jaeger]({% image_path jaeger-logo.png %}){:width="400px"}
 
 [Jaeger Tracing](https://www.jaegertracing.io), inspired by Dapper and OpenZipkin, is a distributed tracing system released as open source by Uber Technologies. It is used for monitoring and troubleshooting microservices-based distributed systems, including:
 

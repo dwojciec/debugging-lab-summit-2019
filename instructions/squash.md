@@ -10,7 +10,7 @@ After checking logs and traces we need the ability to do live debugging of my ap
 
 #### What is Kibana?
 
-![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="200px"}
+![Kibana]({% image_path Kibana-Logo-Color-H.png %}){:width="400px"}
 
 OpenShift provides a logging solution based on ElasticSearch, Fluentd, and [Kibana](https://en.wikipedia.org/wiki/Kibana) :
 
