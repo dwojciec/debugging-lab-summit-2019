@@ -112,7 +112,8 @@ You can ensure the proper functioning of the ***Cart Service*** by accessing to 
 #### Update Gateway Service
 
 Previously, we deployed the ***Cart Service***. Now, you have to take it in account in the ***Gateway Service***.
-Edit the **src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java** file as following:
+
+Under the **gateway-vertx** project, edit the **src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java** file as following:
 
 First, add the WebClient attribute ***cart*** in the class ***GatewayVerticle***
 
