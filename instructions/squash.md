@@ -103,7 +103,7 @@ In CodeReady Workspaces, use the ***Commands Palette*** and **click on DEBUG > S
 
 ~~~shell
 $ squashctl --version
-squashctl version 0.5.8, created 2019-04-09.21:00:55
+squashctl version 0.5.12, created 2019-04-28.12:31:17
 ~~~
 
 The Java image on OpenShift has built-in support for remote debugging and it can be enabled by setting the **JAVA_DEBUG=true** environment variables on the deployment config for the pod that you want to remotely debug.
@@ -480,6 +480,32 @@ And from [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax
 $ oc get pod | grep v2
 $ squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
 ~~~
+result will be something like :
+~~~shell
+squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
+Attaching debugger
+? Select a pod catalog-v2-2-6hck9
+? Select a container catalog-v2
+? Going to attach gdb to pod catalog-v2-2-6hck9. continue? Yes
+pods "plank4xpnc" not found
+Squash will create a debugger pod in your target pod's namespace.
+Creating service account squash-plank in namespace infra22
+
+Creating cluster role squash-plank-cr
+
+Creating cluster role binding squash-plank-crb
+
+All squashctl permission resources created.
+
+Pod creating
+Pod creating
+Pod creating
+Forwarding from 127.0.0.1:33080 -> 39714
+Forwarding from [::1]:33080 -> 39714
+gdb debug port available on local port 33080.
+~~~
+
+
 
 ![debug-gdb-1]({% image_path debug-gdb-1.png %}){:width="900px"}
 
@@ -489,7 +515,7 @@ $ squashctl  --namespace coolstore22 --debugger gdb --squash-namespace infra22
 Configure the remote debugger and click on the **Save** button:
 
 * Check **Connect to process on workspace machine**
-* Port: `35398`
+* Port: `33080`
 Now you can [debug GO using gdb](https://golang.org/doc/gdb)
 
 ![debug-gdb-4]({% image_path debug-gdb-4.png %}){:width="900px"}
