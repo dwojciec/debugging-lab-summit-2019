@@ -97,7 +97,7 @@ For Go software engineers that run and develop for Kubernetes, it’s fair to sa
 Squash brings the power of modern popular debuggers to developers of microservices apps that run on container orchestrator platforms. Choose which containers, pods, services or images you want to debug, and Squash will let you set breakpoints, step through your code while jumping between microservices, follow variable values on the fly, and change these values during run time. 
 
 Using **squashctl** on Inventory by running the following inside the `/ 
-directory in the CodeReady Workspaces **Terminal** window:
+directory in the ***Terminal Window of CodeReady Workspaces***:
 
 In CodeReady Workspaces, use the ***Commands Palette*** and **click on DEBUG > Squash Version**
 
@@ -117,7 +117,7 @@ inventory-1-l22lz              2/2       Running   2          26m
 
 The status should be **Running** and there should be **2/2** pods in the **Ready** column. 
 
-Using *squashctl* on the **Terminal** window or you can use the **Command** **Debug Squash Inventory**
+Using `squashctl` on the ***Terminal Window of CodeReady Workspaces*** or you can use the **Command** **Debug Squash Inventory**
 
 ~~~shell
 $ squashctl --namespace coolstoreXX --debugger java-port --squash-namespace infraXX
@@ -187,11 +187,10 @@ is set.
 
 ![Add Breakpoint]({% image_path debug-che-breakpoint.png %}){:width="600px"}
 
-Open a new **Terminal** window and use `curl` to invoke the Inventory API with the 
+Open a new ***Terminal Window of CodeReady Workspaces*** and use `curl` to invoke the Inventory API with the 
 suspect product id in order to pause the code execution at the defined breakpoint.
 
-Note that you can use the the following icons to switch between debug and terminal windows.
-
+Note that you can use the the following icons to switch between ***Debug Windows*** and ***Terminal Windows***.
 
 ![Icons]({% image_path debug-che-window-guide.png %}){:width="700px"}
 
@@ -273,7 +272,7 @@ public Inventory getAvailability(@PathParam("itemId") String itemId) {
 }
 ~~~
 
-Go back to the **Terminal** window. Press 
+Go back to the ***Terminal Window of CodeReady Workspaces***. Press 
 `Ctrl+C` to stop the debug and port-forward and then run the following commands 
 to rebuild the container with the code corrected.
 
@@ -308,7 +307,7 @@ This service use the same business logic except that all product descriptions ar
 
 Let's deploy the service directly from the catalog-go directory using the `oc new-app` command.
 
-In the terminal window type the following command:
+In the ***Terminal Window of CodeReady Workspaces*** type the following command:
 
 ~~~shell
 $ oc new-app /projects/labs/ --strategy=docker --context-dir=catalog-go --name=catalog-v2 --labels app=catalog,group=com.redhat.cloudnative,provider=fabric8,version=2.0 
@@ -352,7 +351,7 @@ Let's now create the ***Destination Rule*** resource.
 
 * A ***Destination Rule*** defines policies that apply to traffic intended for a service after routing has occurred. These rules specify configuration for load balancing, connection pool size from the sidecar, and outlier detection settings to detect and evict unhealthy hosts from the load balancing pool.
 
-In the Terminal window, issue the following command:
+In the ***Terminal Window of CodeReady Workspaces***, issue the following command:
 
 ~~~shell
 $ cat << EOF | oc create -f -
@@ -382,7 +381,7 @@ The last step is to define the rules to distribute the traffic between the servi
 
 * A **VirtualService** defines a set of traffic routing rules to apply when a host is addressed. Each routing rule defines matching criteria for traffic of a specific protocol. If the traffic is matched, then it is sent to a named destination service (or subset/version of it) defined in the registry.
 
-In the Terminal window, issue the following command:
+In the ***Terminal Window of CodeReady Workspaces***, issue the following command:
 
 ~~~shell
 $ cat << EOF | oc create -f -
@@ -440,7 +439,7 @@ From the [Kiali Console]({{ KIALI_URL }}) *(please make sure to replace **infrax
 
 You can see that the traffic between the two version of the ***Catalog*** is shared equitably (at least very very close). 
 
-After one week trial, you have collected enough information to confirm that product descriptions in uppercase do increate sales rates. So you will route all the traffic to ***Catalog Service v2***. Go back to the Terminal and run the following command:
+After one week trial, you have collected enough information to confirm that product descriptions in uppercase do increate sales rates. So you will route all the traffic to ***Catalog Service v2***. Go back to the ***Terminal Window of CodeReady Workspaces*** and run the following command:
 
 ~~~shell
 $ cat << EOF | oc replace -f -
@@ -465,7 +464,7 @@ spec:
 EOF
 ~~~
 
-Now, you likely see only *'Gateway => Catalog GoLang (v2)'* in the *'testGatewayService'* terminal.
+Now, you likely see only *'Gateway => Catalog GoLang (v2)'* in the *'testGatewayService'* ***Terminal Window of CodeReady Workspaces***.
 
 ![Terminal - RunGatewayService]({% image_path  codeready-run-gateway-100.png %}){:width="900px"}
 

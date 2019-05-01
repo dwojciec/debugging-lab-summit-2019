@@ -71,7 +71,7 @@ In CodeReady Workspaces, use the ***Commands Palette*** and **click on OPENSHIFT
 >
 > The command `oc login {{ OPENSHIFT_CONSOLE_URL }}` is issued using the credentials `{{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}`
 
-You should get an output in the `oc login` terminal as following:
+You should get an output in the `oc login` ***Terminal Window of CodeReady Workspaces*** as following:
 
 ~~~shell
 Login successful.

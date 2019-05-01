@@ -45,6 +45,8 @@ Even if the application *seemed* working fine, there is a problem in the ***Gate
 
 ![Kiali - 4xx]({% image_path kiali-4xx.png %}){:width="300px"}
 
+> In order to get the previous screen, please reload the ***Web UI*** more than one time!
+
 Open the Javascript Console from your browser, and you will find a **404 error** when calling the ***'gateway/api/cart'** API.
 
 ![Gateway Error]({% image_path gateway-cart-missing.png %}){:width="700px"}
@@ -69,7 +71,7 @@ In this chapter, you will focus on creating a Docker image using the produced na
 > If you want, take a moment to examine the source code of the Cart Service implemented with [Quarkus](https://quarkus.io/).
 > You can find it under the package ***com.redhat.cloudnative*** in the **src/main/java** directory of the **cart-quarkus** project.
 
-In the *Terminal* window, execute the following commands to leverage the build mechanism of OpenShift and deploy the service:
+In the ***Terminal Window of CodeReady Workspaces***, execute the following commands to leverage the build mechanism of OpenShift and deploy the service:
 
 ~~~shell
 # To build the image on OpenShift
