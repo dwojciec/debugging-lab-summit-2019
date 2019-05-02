@@ -127,12 +127,13 @@ public class TracingInterceptor {
 }
 ~~~
 
-Then, route all traffic into the ***TracingInterceptor*** handler by replacing the comment ***// Enable TraceInterceptor handler here*** in the ***start()*** method with the following code:
+Then, route all traffic into the ***TracingInterceptor*** handler by uncommenting the TraceInterceptor handler configuration in the ***start()*** method with the following code:
 
 ~~~java
-router.route()
-    .order(-1)
-    .handler(TracingInterceptor.create());
+        // Enable TraceInterceptor handler
+        router.route()
+            .order(-1)
+            .handler(TracingInterceptor.create());
 ~~~
 
 Finally, propagate the headers from the incoming request ***Gateway Service*** to any outgoing requests ***Catalog Service*** and ***Inventory Service*** using the ***propagate()*** method from ***TracingInterceptor*** class when calling outgoing services in the ***products()*** method.

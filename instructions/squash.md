@@ -382,7 +382,7 @@ EOF
 
 Doing so, you route **100%** of the **HTTP traffic** to pods of the ***Catalog Service v2*** *(subset "version-go" ie label "version: 2.0")*.
 
-![Kiali- Graph]({% image_path kiali-abtesting-100.png %}){:width="700px"}
+![Kiali- Graph]({% image_path kiali-catalogv2-100.png %}){:width="700px"}
 
 #### How to debug GO code with gdb using squash
 

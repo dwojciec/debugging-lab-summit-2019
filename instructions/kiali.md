@@ -115,7 +115,7 @@ Previously, we deployed the ***Cart Service***. Now, you have to take it in acco
 
 Under the **gateway-vertx** project, edit the **src/main/java/com/redhat/cloudnative/gateway/GatewayVerticle.java** file as following:
 
-First, add the WebClient attribute ***cart*** in the class ***GatewayVerticle***
+First, uncomment the WebClient attribute ***cart*** in the class ***GatewayVerticle***
 
 ~~~java
     private WebClient catalog;
@@ -124,7 +124,7 @@ First, add the WebClient attribute ***cart*** in the class ***GatewayVerticle***
     private WebClient cart; 
 ~~~
 
-Then, define the route **/api/cart/:cardId** in the ***start()*** method
+Then, uncomment the **/api/cart/:cardId** route in the ***start()*** method
 
 ~~~java
         router.get("/health").handler(ctx -> ctx.response().end(new JsonObject().put("status", "UP").toString()));
@@ -133,10 +133,9 @@ Then, define the route **/api/cart/:cardId** in the ***start()*** method
         router.get("/api/cart/:cardId").handler(this::getCartHandler);
 ~~~
 
-Next, replace the ***ServiceDiscovery.create()*** call as following
+Next, uncomment the **Cart Lookup** for Service Dicovery in the ***ServiceDiscovery.create()*** call
 
 ~~~java
-        ServiceDiscovery.create(vertx, discovery -> {
             // Catalog lookup
             Single<WebClient> catalogDiscoveryRequest = HttpEndpoint.rxGetWebClient(discovery,
                     rec -> rec.getName().equals("catalog"))
@@ -157,7 +156,11 @@ Next, replace the ***ServiceDiscovery.create()*** call as following
                     .onErrorReturn(t -> WebClient.create(vertx, new WebClientOptions()
                             .setDefaultHost(System.getProperty("inventory.api.host", "localhost"))
                             .setDefaultPort(Integer.getInteger("inventory.api.port", 9002))));
+~~~
 
+Then, replace the ***Single.zip()*** function in the ***ServiceDiscovery.create()*** call as following
+
+~~~java
             // Zip all 3 requests
             Single.zip(catalogDiscoveryRequest, inventoryDiscoveryRequest, cartDiscoveryRequest, 
                 (cg, i, ct) -> {
@@ -169,10 +172,9 @@ Next, replace the ***ServiceDiscovery.create()*** call as following
                         .requestHandler(router::accept)
                         .listen(Integer.getInteger("http.port", 8080));
                 }).subscribe();
-        });
 ~~~
 
-Finally, add the ***getCartHandler()*** method in the ***GatewayVerticle*** class.
+Finally, uncomment the ***getCartHandler()*** method in the ***GatewayVerticle*** class.
 
 ~~~java
     private void getCartHandler(RoutingContext rc) {
