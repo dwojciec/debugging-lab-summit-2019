@@ -107,6 +107,9 @@ objects:
           kind: ImageStreamTag
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: 'http://nexus.opentlc-shared.svc:8081/repository/maven-all-public'
       type: Source
     triggers: []
 - apiVersion: build.openshift.io/v1
@@ -137,6 +140,9 @@ objects:
           kind: ImageStreamTag
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: 'http://nexus.opentlc-shared.svc:8081/repository/maven-all-public'
       type: Source
     triggers: []
 - apiVersion: build.openshift.io/v1
@@ -167,6 +173,9 @@ objects:
           kind: ImageStreamTag
           name: redhat-openjdk18-openshift:1.4
           namespace: openshift
+        env:
+        - name: MAVEN_MIRROR_URL
+          value: 'http://nexus.opentlc-shared.svc:8081/repository/maven-all-public'
       type: Source
     triggers: []
 - apiVersion: build.openshift.io/v1
