@@ -326,7 +326,6 @@ objects:
     generation: 2
     labels:
       app: catalog
-      template: postgresql-persistent-template
       version: v1.0
     name: catalog-postgresql
   spec:
@@ -409,8 +408,7 @@ objects:
         terminationGracePeriodSeconds: 30
         volumes:
         - name: catalog-postgresql-data
-          persistentVolumeClaim:
-            claimName: catalog-postgresql
+          emptyDir: {}
     test: false
     triggers:
     - imageChangeParams:
@@ -659,7 +657,6 @@ objects:
     generation: 2
     labels:
       app: inventory
-      template: postgresql-persistent-template
       version: v1.0
     name: inventory-postgresql
   spec:
@@ -742,8 +739,7 @@ objects:
         terminationGracePeriodSeconds: 30
         volumes:
         - name: inventory-postgresql-data
-          persistentVolumeClaim:
-            claimName: inventory-postgresql
+          emptyDir: {}
     test: false
     triggers:
     - imageChangeParams:
@@ -878,7 +874,6 @@ objects:
       template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
     labels:
       app: catalog
-      template: postgresql-persistent-template
       version: v1.0
     name: catalog-postgresql
   spec:
@@ -957,7 +952,6 @@ objects:
       template.openshift.io/expose-uri: postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}
     labels:
       app: inventory
-      template: postgresql-persistent-template
       version: v1.0
     name: inventory-postgresql
   spec:
@@ -1037,7 +1031,6 @@ objects:
       template.openshift.io/expose-username: '{.data[''database-user'']}'
     labels:
       app: catalog
-      template: postgresql-persistent-template
       version: v1.0
     name: catalog-postgresql
   type: Opaque
@@ -1055,7 +1048,6 @@ objects:
       template.openshift.io/expose-username: '{.data[''database-user'']}'
     labels:
       app: inventory
-      template: postgresql-persistent-template
       version: v1.0
     name: inventory-postgresql
   type: Opaque
