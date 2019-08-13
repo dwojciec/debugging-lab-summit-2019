@@ -3,7 +3,7 @@
 # Getting Hands On Debugging Microservices Applications on OpenShift
 
 
-## Purpose
+== Purpose
 
 As microservices-based applications become more prevalent, both the number of
 and complexity of their interactions increases. Up until now much of the burden
@@ -18,7 +18,7 @@ the good health of your application? Debugging microservices architecture is har
 The state of the application is spread through multiple microservices which makes 
 more complicated to get a global overview for debugging purposes.
 
-## Background
+== Background
 This hands-on workshop will introduce and help you to get familiar with the common 
 tracing/debugging techniques using Jaeger/OpenTracing, Istio, Kiali and Squash in 
 a microservice context
@@ -38,7 +38,7 @@ This is the URL for your customized lab guide that you will use for the rest of
 the lab. Please open that URL in your browser and continue from there.
 
 # Using this lab content elsewhere
-## Deploy On OpenShift
+== Deploy On OpenShift
 
 You can deploy the lab guides as a container image anywhere but most
 conveniently, you can deploy it on OpenShift Online or other OpenShift flavours:
@@ -76,7 +76,7 @@ Note that the workshop variables can be overriden via specifying environment
 variables on the container itself e.g. the `JAVA_APP` env var in the above
 command
 
-## Test Locally with Docker
+== Test Locally with Docker
 
 You can directly run Workshopper as a docker container which is specially helpful when writing the content.
 
