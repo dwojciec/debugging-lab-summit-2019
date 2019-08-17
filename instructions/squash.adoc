@@ -8,6 +8,8 @@ image:{% image_path mrrobot.png %}[MrRobot, 500]
 
 https://www.usanetwork.com/mrrobot/photos/eps22init1asec[Source: https://www.usanetwork.com/mrrobot/photos/eps22init1asec^]
 
+'''
+
 === What is Kibana?
 
 [sidebar]
@@ -29,6 +31,8 @@ https://docs.openshift.com/container-platform/3.11/install_config/aggregate_logg
 
 Logs management plays a vital role when we encounter an error in the application. If we do not manage the logs, it will be difficult in any application, especially in microservices architecture to find the error and fix it. For our application with lots of microservices we have to identify interesting traces and Kibana is offering an nice User Interface with search field to explore and to analyze logs files easily. Whenever we get some error in the application(s), we can get the error details and analyze them in a simple way.
 --
+
+'''
 
 === Investigate The Bug
 
@@ -70,6 +74,8 @@ No response came back from **Inventory Service** for the product id **'444436'**
 on the web interface.
 
 Let's debug the **Inventory Service** to get to the bottom of this!
+
+'''
 
 === What is Squash ?
 [sidebar]
@@ -150,7 +156,7 @@ Forward the remote debugging port of the Inventory service locally by executing 
 
 [source,shell]
 ----
-[user@workspace7gz4p7p2gxch7vps projects]$ kubectl port-forward inventory-3-nc62t :5005 -n coolstore22
+[user@workspace7gz4p7p2gxch7vps projects]$ kubectl port-forward inventory-3-nc62t :5005 -n {{ COOLSTORE_PROJECT }}
 Forwarding from 127.0.0.1:34930 -> 5005
 Forwarding from [::1]:34930 -> 5005
 Handling connection for 34930
@@ -162,6 +168,8 @@ port open so that you can start debugging remotely.
 You can have a look in the {{ INFRA_PROJECT }} project to see the pod created by squash.
 
 image:{% image_path debug-squash-pod.png %}[Squash pod, 700]
+
+'''
 
 === Remote Debug with CodeReady Workspaces
 
@@ -245,6 +253,8 @@ returned instead of `null`.
 Click on the _Resume_ icon to continue the code execution and then on the stop icon to 
 end the debug session.
 
+'''
+
 === Additionnal Squash command (normally not needed here)
 To delete planks created in our namespace
 
@@ -257,6 +267,8 @@ or using the **Command** **Delete Squash Attachments**
 image:{% image_path delete-attachments.png %}[Debug, 450]
 
 image:{% image_path delete-attachments-1.png %}[Debug, 900]
+
+'''
 
 === Fix the Inventory Bug
 
@@ -301,5 +313,9 @@ that the inventory status is visible for all products. The suspect product shoul
 the inventory status as _Not in Stock_.
 
 image:{% image_path debug-coolstore-bug-fixed.png %}[Inventory Status Bug Fixed, 800]
+
+'''
+
+=== CONGRATULATIONS!!!
 
 Well done and congratulations for completing all the labs.

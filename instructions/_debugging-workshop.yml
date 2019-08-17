@@ -5,8 +5,9 @@ content:
   url: https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master
 
 vars:
-  OPENSHIFT_CONSOLE_URL: "https://openshift-GUID.rhpds.opentlc.com:8443"
-  APPS_HOSTNAME_SUFFIX: APPS_HOSTNAME_SUFFIX
+  OPENSHIFT_CONSOLE_URL: "https://console-openshift-console.192.168.99.100.nip.io"
+  OPENSHIFT_API_URL: "https://api.192.168.99.100.nip.io"
+  APPS_HOSTNAME_SUFFIX: "192.168.99.100.nip.io"
   OPENSHIFT_USER: userX
   OPENSHIFT_PASSWORD: PASSWORD
   COOLSTORE_PROJECT: coolstore

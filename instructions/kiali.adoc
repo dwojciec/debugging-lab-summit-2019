@@ -9,6 +9,8 @@ image:{% image_path birdbox.png %}[BirdBox, 500]
 
 Red Hat OpenShift Container Platform provides services to get observability of applications and to understand how different components are interacting with each other.
 
+'''
+
 === What is Kiali?
 
 [sidebar]
@@ -21,6 +23,8 @@ A service mesh can now provide these services on a platform level and frees the 
 
 https://www.kiali.io[Kiali^] works with Istio, in OpenShift or Kubernetes, to visualize the service mesh topology, to provide visibility into features like circuit breakers, request rates and more. It offers insights about the mesh components at different levels, from abstract Applications to Services and Workloads.
 --
+
+'''
 
 === "Kiali, please tell me, how is the application working?"
 
@@ -51,9 +55,11 @@ Open the Javascript Console from your browser, and you will find a **404 error**
 
 image:{% image_path gateway-cart-missing.png %}[Gateway Error, 700]
 
-Indeed, when you check the APIs exposed by the gateway, you cannot find any **'/api/cart/id-*'** one.
+Indeed, when you check the APIs exposed by the **Gateway Service**, you cannot find any **'/api/cart/id-*'** one.
 
 Let's fix it!!
+
+'''
 
 === Build and deploy the Quarkus microservice, the Cart Service
 
@@ -74,7 +80,7 @@ If you want, take a moment to examine the source code of the Cart Service implem
 You can find it under the package **com.redhat.cloudnative** in the **src/main/java** directory of the **cart-quarkus** project.
 ====
 
-In the *Terminal Window of CodeReady Workspaces*, `*execute the following commands to leverage the build mechanism of OpenShift and deploy the service*`:
+In the *Terminal Window of CodeReady Workspaces*, `*execute the following commands*` to leverage the build mechanism of OpenShift and deploy the service:
 
 [source,shell]
 ----
@@ -107,6 +113,8 @@ Have a look to the log of the **Cart Service** pod by cliking in the dark blue c
 
 **AND YES, IT'S A JAVA APPLICATION!**
 
+'''
+
 === Update Gateway Service
 
 Previously, we deployed the **Cart Service**. Now, you have to take it in account in the **Gateway Service**.
@@ -133,6 +141,10 @@ In Kiali Graph, the **Gateway Service** is now green and you can see the new **C
 
 image:{% image_path gateway-cart-fixed.png %}[Gateway Fixed, 700]
 
-**CONGRATULATIONS!!!** You survive and you put off the blindfold on your own. But it is not THE END...
+'''
+
+=== CONGRATULATIONS!!!
+
+You survive and you put off the blindfold on your own. But it is not THE END...
 
 Now, let's go deeper!!

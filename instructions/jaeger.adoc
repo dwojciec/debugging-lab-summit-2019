@@ -6,6 +6,8 @@ As Cobb and Arthur in *Inception*, let's perform a *"Trace Within a Trace" Strat
 
 image:{% image_path inception.jpg %}[Inception, 500]
 
+'''
+
 === What is Jaeger?
 
 [sidebar]
@@ -24,6 +26,8 @@ https://www.kiali.io[Kiali^] includes https://www.jaegertracing.io[Jaeger Tracin
 --
 
 > Because of certificates issues, you need first to access the main {{ JAEGER_URL }}[Jaeger Console^] to use it through Kiali.
+
+'''
 
 === What are you hidding, Mr/Mrs *Application*?
 
@@ -44,6 +48,8 @@ image:{% image_path jaeger-trace-2spans-view.png %}[Jaeger - Traces View, 800]
 
 As you have called several times the **Gateway Service** through the Web UI, you find much more than 8 spans in Jaeger and you cannot easily observe the entire trace for an end-to-end request.
 
+'''
+
 === Enabling Distributed Context Propagation
 
 **Distributed Tracing** involves propagating the tracing context from service to service by sending certain incoming HTTP headers downstream to outbound requests. To do this, services need some hints to tie together the entire trace. They need to propagate the appropriate HTTP headers so that when the proxies send span information, the spans can be correlated correctly into a single trace.
@@ -61,7 +67,6 @@ First, you are going to intercept the following header creating by **Service Mes
  * x-ot-span-context
 
 In CodeReady Workspaces, under the **src/main/java** directory of the **gateway-vertx** project,
-
 `*create a new 'TracingInterceptor' class*` in the **com.redhat.cloudnative.gateway** package as following:
 
 [source,java]
@@ -244,7 +249,11 @@ image:{% image_path jaeger-trace-fixed-detail-view.png %}[Jaeger - Trace Detail 
 
 Just wonderful! You reduce the response time by a factor of 5!! You should be proud!!
 
-**CONGRATULATIONS!!!** You make it but **is the spinning top stopped or not at the end?**
+'''
+
+=== CONGRATULATIONS!!!
+
+You make it but **is the spinning top stopped or not at the end?**
 
 image:{% image_path spinningtop.jpg %}[Inception - Spinning Top, 300]
 
