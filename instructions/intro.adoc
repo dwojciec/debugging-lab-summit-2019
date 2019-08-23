@@ -78,7 +78,7 @@ Once completed, you will have a fully functional CodeReady Workspaces IDE runnin
 image:{% image_path codeready-workspace.png %}[CodeReady Workspaces - Workspace, 800]
 
 '''
-*Note* : This feature is similar of the https://github.com/GoogleCloudPlatform/cloud-run-button[Google Cloud Run Button^]
+*Note* : This feature is similar to the https://github.com/GoogleCloudPlatform/cloud-run-button[Google Cloud Run Button^]
 
 
 === Login to OpenShift
