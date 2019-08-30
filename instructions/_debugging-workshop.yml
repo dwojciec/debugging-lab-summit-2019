@@ -19,12 +19,11 @@ vars:
   CATALOG_ROUTE_HOST: CATALOG-ROUTE-HOST
   API_GATEWAY_ROUTE_HOST: API-GATEWAY-ROUTE-HOST
   CART_ROUTE_HOST: CART-ROUTE-HOST
-  CODEREADY_WORKSPACES_URL: http://codeready-lab-infra.192.168.99.100.nip.io
-  GIT_URL: http://gogs-lab-infra.192.168.99.100.nip.io
-  NEXUS_URL: http://nexus.lab-infra.svc:8081/repository/maven-all-public
-  KIALI_URL: http://kiali-infra.192.168.99.100.nip.io
-  JAEGER_URL: https://jaeger-query-istio-system.192.168.99.100.nip.io
-  KIBANA_URL: http://kibana.192.168.99.100.nip.io
+  CHE_URL: http://che-eclipse-che.apps.192.168.99.100.nip.io
+  JAEGER_URL: http://tracing-istio-system.apps.192.168.99.100.nip.io
+  NEXUS_URL: http://nexus.workshop-infra.apps.192.168.99.100.nip.io
+  KIALI_URL: http://kiali-istio-system.apps.192.168.99.100.nip.io
+  KIBANA_URL: http://kibana.apps192.168.99.100.nip.io
   
 modules:
   activate:

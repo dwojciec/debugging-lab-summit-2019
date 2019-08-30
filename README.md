@@ -52,7 +52,7 @@ oc new-app osevg/workshopper --name=debug-workshop \
       -e APPS_SUFFIX="apps.127.0.0.1.nip.io" \
       -e DEBUG_LAB_HOSTNAME="127.0.0.1" \
       -e LABS_DOWNLOAD_URL="https://github.com/mcouliba/cloud-native-labs/archive/debugging.zip" \                            
-      -e CODEREADY_WORKSPACES_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
+      -e CHE_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
       -e OPENSHIFT_USER=userX 
       -e OPENSHIFT_PASWORD=openshift                              \
       -e KIALI_URL="https://kiali-infraX.apps.127.0.0.1.nip.io/"     \                             
@@ -91,7 +91,7 @@ docker run -p 8080:8080 -v $(pwd):/app-data \
 -e APPS_SUFFIX=“apps.127.0.0.1.nip.io" \                          
 -e DEBUG_LAB_HOSTNAME="MY_HOSTNAME" \
 -e LABS_DOWNLOAD_URL="https://github.com/mcouliba/cloud-native-labs/archive/debugging.zip" \                            
--e CODEREADY_WORKSPACES_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
+-e CHE_URL="http://codeready-lab-infra.apps.127.0.0.1.nip.io " \                              
 -e OPENSHIFT_USER=userX -e OPENSHIFT_PASWORD=openshift                              \
 -e KIALI_URL="https://kiali-infraX.apps.127.0.0.1.nip.io/"     \                             
 -e COOLSTORE_TEMPLATE= https://raw.githubusercontent.com/dwojciec/debugging-lab-summit-2019/master/openshift/coolstore.yml"   \  

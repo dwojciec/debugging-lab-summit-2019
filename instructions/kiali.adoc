@@ -80,9 +80,15 @@ If you want, take a moment to examine the source code of the Cart Service implem
 You can find it under the package **com.redhat.cloudnative** in the **src/main/java** directory of the **cart-quarkus** project.
 ====
 
-In the *Terminal Window of CodeReady Workspaces*, `*execute the following commands*` to leverage the build mechanism of OpenShift and deploy the service:
+In your {{ CHE_URL }}[Workspace^], open a new Terminal with OpenShift tools by `*clicking 
+on the 'My Workspace' white box in the right menu, then 'Plugins' -> 'vscode-openshift-connector' -> '>_ New terminal'*`:
+
+image:{% image_path che-open-openshift-terminal.png %}[Che - Open OpenShift Terminal, 700]
+
+In the window called **'>_ vscode-openshift-connector terminal'**, `*execute the following commandes*`:
 
 [source,shell]
+.>_ vscode-openshift-connector terminal
 ----
 # To build the image on OpenShift
 $ oc new-build --binary --name=cart -lapp=cart,version=v1.0
@@ -99,12 +105,13 @@ $ oc set env dc/cart CATALOG_ENDPOINT=http://catalog:8080
 $ oc rollout resume dc/cart
 ----
 
-image:{% image_path console-cart.png %}[Openshift Console Cart, 500]
+image:{% image_path console-cart.png %}[Openshift Console Cart, 800]
 
 **YOU HAVE TO SEE THAT!** 
 Have a look to the log of the **Cart Service** pod by cliking in the dark blue circle and then **just admire its amazing FAST BOOT TIME!**
 
 [source,shell]
+.Cart Service logs
 ----
 2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Quarkus 0.11.0 started in 0.009s. Listening on: http://0.0.0.0:8080 
 2019-04-01 20:13:35,623 INFO  [io.quarkus] (main) Installed features: [cdi, resteasy, resteasy-jsonb, smallrye-rest-client]
@@ -131,6 +138,7 @@ Under the **/projects/labs/gateway-vertx** project, `*uncomment the '/api/cart/:
 Check that your source code compiles then use the OpenShift CLI command to start a new build and deployment for the update *Gateway Service*.
 
 [source,shell]
+.>_ vscode-openshift-connector terminal
 ----
 $ mvn clean package -f /projects/labs/gateway-vertx/
 $ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow

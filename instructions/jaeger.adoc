@@ -25,19 +25,22 @@ https://www.jaegertracing.io[Jaeger Tracing^], inspired by Dapper and OpenZipkin
 https://www.kiali.io[Kiali^] includes https://www.jaegertracing.io[Jaeger Tracing^] to provide distributed tracing out of the box.
 --
 
-> Because of certificates issues, you need first to access the main {{ JAEGER_URL }}[Jaeger Console^] to use it through Kiali.
-
 '''
 
 === What are you hidding, Mr/Mrs *Application*?
 
 From the {{ KIALI_URL }}[Kiali Console^], `*click on the 'Distributed Tracing'*` in the left navigation and enter the following configuration:
 
+[IMPORTANT]
+====
+Because of certificates issues, you need first to access the main {{ JAEGER_URL }}[Jaeger Console^] to use it through Kiali.
+====
+
  * Select a Namespace: **{{ COOLSTORE_PROJECT }}**
  * Select a Service: **gateway**
- * Then click on the **magnifying glass** on the right
+ * Then click on the **'Search Traces' button** on the right
 
-image:{% image_path jaeger-query.png %}[Jaeger - Traces View, 800]
+image:{% image_path jaeger-query.png %}[Jaeger - Query, 800]
 
 By default, **Service Mesh** automatically sends collected tracing data to Jaeger, so that we are able to **only see individual trace** (one-to-one service call).
 
@@ -66,7 +69,7 @@ First, you are going to intercept the following header creating by **Service Mes
  * x-b3-flags
  * x-ot-span-context
 
-In CodeReady Workspaces, under the **src/main/java** directory of the **gateway-vertx** project,
+In Che7, under the **src/main/java** directory of the **gateway-vertx** project,
 `*create a new 'TracingInterceptor' class*` in the **com.redhat.cloudnative.gateway** package as following:
 
 [source,java]
@@ -240,6 +243,7 @@ Do not forget to import the missing packages.
 Now let's check and push the new version of the source code.
 
 [source,shell]
+.>_ vscode-openshift-connector terminal
 ----
 $ mvn package -f /projects/labs/catalog-spring-boot/
 $ oc start-build catalog-s2i --from-dir /projects/labs/catalog-spring-boot/ --follow
@@ -255,6 +259,6 @@ Just wonderful! You reduce the response time by a factor of 5!! You should be pr
 
 You make it but **is the spinning top stopped or not at the end?**
 
-image:{% image_path spinningtop.jpg %}[Inception - Spinning Top, 300]
+image:{% image_path spinningtop.jpg %}[Inception - Spinning Top, 500]
 
 We will never know and now, it is time to go deeper again!!

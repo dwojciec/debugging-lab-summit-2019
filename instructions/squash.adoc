@@ -110,17 +110,19 @@ values on the fly, and change these values during run time.
 === Debugging with Squashctl
 
 Using **squashctl** on Inventory by running the following inside the *'/'* 
-directory in the **Terminal Window of CodeReady Workspaces**:
+directory in the **Terminal Window of Che7**:
 
-In CodeReady Workspaces, `*use the Commands Palette and click on 'DEBUG > Squash Version'*`
+In Che7, `*use the Commands Palette and click on 'DEBUG > Squash Version'*`
 
 [source,shell]
 ----
-$ squashctl --version
-squashctl version 0.5.12, created 2019-04-28.12:31:17
+Squash version used from Solo.io
+squashctl version 0.5.15, created 2019-05-14.23:26:51
 ----
 
-The Java image on OpenShift has built-in support for remote debugging and it can be enabled by setting the **JAVA_DEBUG=true** environment variables on the deployment config for the pod that you want to remotely debug.
+The Java image on OpenShift has built-in support for remote debugging and it can be enabled by setting the **JAVA_DEBUG=true** 
+environment variables on the deployment config for the pod that you want to remotely debug.
+In the **Terminal Window of Che7**, `*execute the following command*`:
 
 [source,shell]
 ----
@@ -132,7 +134,7 @@ inventory-1-l22lz              2/2       Running   2          26m
 
 The status should be **Running** and there should be **2/2** pods in the **Ready** column. 
 
-Using **squashctl** on the **Terminal Window of CodeReady Workspaces** or you can use the **Command** **Debug Squash Inventory**
+Using **squashctl** on the **Terminal Window of Che7** or you can use the **Command** **Debug Squash Inventory**
 
 [source,shell]
 ----
@@ -171,16 +173,16 @@ image:{% image_path debug-squash-pod.png %}[Squash pod, 700]
 
 '''
 
-=== Remote Debug with CodeReady Workspaces
+=== Remote Debug with Che7
 
-CodeReady Workspaces provides a convenient way to remotely connect to Java applications running 
+Che7 provides a convenient way to remotely connect to Java applications running 
 inside containers and debug while following the code execution in the IDE.
 
 From the **Run** menu, click on **Edit Debug Configurations...**.
 
 image:{% image_path debug-che-debug-config-1.png %}[Remote Debug, 600]
 
-The window shows the debuggers available in CodeReady Workspaces. Click on the plus sign near the 
+The window shows the debuggers available in Che7. Click on the plus sign near the 
 Java debugger.
 
 image:{% image_path debug-che-debug-config-2.png %}[Remote Debug, 700]
@@ -192,7 +194,7 @@ Configure the remote debugger and click on the **Save** button:
 
 image:{% image_path debug-che-debug-config-3.png %}[Remote Debug, 700]
 
-You can now click on the **Debug** button to make CodeReady Workspaces connect to the 
+You can now click on the **Debug** button to make Che7 connect to the 
 Inventory service running on OpenShift.
 
 You should see a confirmation that the remote debugger is successfully connected.
@@ -206,7 +208,7 @@ is set.
 
 image:{% image_path debug-che-breakpoint.png %}[Add Breakpoint, 600]
 
-Open a new **Terminal Window of CodeReady Workspaces** and use `curl` to invoke the Inventory API with the 
+Open a new **Terminal Window of Che7** and use `curl` to invoke the Inventory API with the 
 suspect product id in order to pause the code execution at the defined breakpoint.
 
 Note that you can use the the following icons to switch between **Debug Windows** and **Terminal Windows**.
@@ -294,7 +296,7 @@ public Inventory getAvailability(@PathParam("itemId") String itemId) {
 }
 ----
 
-Go back to the **Terminal Window of CodeReady Workspaces**. Press 
+Go back to the **Terminal Window of Che7**. Press 
 `Ctrl+C` to stop the debug and port-forward and then run the following commands 
 to rebuild the container with the code corrected.
 
