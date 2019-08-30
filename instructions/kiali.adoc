@@ -7,6 +7,9 @@ Going all over this application and debugging it completely blindfolded is time 
 
 image:{% image_path birdbox.png %}[BirdBox, 500]
 
+[.text-center]
+https://ewedit.files.wordpress.com/2019/01/bird_box_018.jpg[Source: https://ewedit.files.wordpress.com/2019/01/bird_box_018.jpg^]
+
 Red Hat OpenShift Container Platform provides services to get observability of applications and to understand how different components are interacting with each other.
 
 '''
@@ -135,14 +138,12 @@ Under the **/projects/labs/gateway-vertx** project, `*uncomment the '/api/cart/:
         router.get("/api/cart/:cardId").handler(this::getCartHandler);
 ----
 
-Check that your source code compiles then use the OpenShift CLI command to start a new build and deployment for the update *Gateway Service*.
+In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
+`*run 'Task: Run Task...' ->  'che: Build and deploy Gateway Service'*`
 
-[source,shell]
-.>_ vscode-openshift-connector terminal
-----
-$ mvn clean package -f /projects/labs/gateway-vertx/
-$ oc start-build gateway-s2i --from-dir /projects/labs/gateway-vertx/ --follow
-----
+image:{% image_path che-runtask.png %}[Che - RunTask, 500]
+
+image:{% image_path che-buildgateway.png %}[Che - Build Gateway Service, 500]
 
 Once deployed, check your javascript console that the **404 error** has disappeared.
 In Kiali Graph, the **Gateway Service** is now green and you can see the new **Cart Service** is now present! 

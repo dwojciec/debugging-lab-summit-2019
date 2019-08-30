@@ -300,15 +300,12 @@ Go back to the **Terminal Window of Che7**. Press
 `Ctrl+C` to stop the debug and port-forward and then run the following commands 
 to rebuild the container with the code corrected.
 
-[source,shell]
-----
-$ mvn clean package -f /projects/labs/inventory-thorntail/ 
-$ oc start-build inventory-s2i --from-dir /projects/labs/inventory-thorntail/ --follow 
-----
+In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
+`*run 'Task: Run Task...' ->  'che: Build and deploy Inventory Service'*`
 
-or use **Command** names **Build inventory Service**
-image:{% image_path build-inventory-service.png %}[Build Inventory, 700]
+image:{% image_path che-runtask.png %}[Che - RunTask, 500]
 
+image:{% image_path che-buildinventory.png %}[Che - Build Inventory Service, 500]
 
 When the container is rebuilt and deployed, point your browser at the Web route and verify 
 that the inventory status is visible for all products. The suspect product should show 
