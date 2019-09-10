@@ -88,7 +88,7 @@ on the 'My Workspace' white box in the right menu, then 'Plugins' -> 'vscode-ope
 
 image:{% image_path che-open-openshift-terminal.png %}[Che - Open OpenShift Terminal, 700]
 
-In the window called **'>_ vscode-openshift-connector terminal'**, `*execute the following commandes*`:
+In the window called **'>_ vscode-openshift-connector terminal'**, `*execute the following commands*`:
 
 [source,shell]
 .>_ vscode-openshift-connector terminal
