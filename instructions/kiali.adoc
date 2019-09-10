@@ -139,7 +139,7 @@ Under the **/projects/labs/gateway-vertx** project, `*uncomment the '/api/cart/:
 ----
 
 In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
-`*run 'Task: Run Task...' ->  'che: Build and deploy Gateway Service'*`
+`*run 'Task: Run Task...' ->  'che: oc build gateway service'*`
 
 image:{% image_path che-runtask.png %}[Che - RunTask, 500]
 

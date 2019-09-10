@@ -175,7 +175,7 @@ Finally, propagate the headers from the incoming request **Gateway Service** to 
 Now push the new version of the source code to OpenShift.
 
 In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
-`*run 'Task: Run Task...' ->  'che: Build and deploy Gateway Service'*`
+`*run 'Task: Run Task...' ->  'che: oc build gateway service'*`
 
 image:{% image_path che-runtask.png %}[Che - RunTask, 500]
 
@@ -247,7 +247,7 @@ Do not forget to import the missing packages.
 Now let's check and push the new version of the source code.
 
 In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
-`*run 'Task: Run Task...' ->  'che: Build and deploy Catalog Service'*`
+`*run 'Task: Run Task...' ->  'che: oc build catalog service'*`
 
 image:{% image_path che-runtask.png %}[Che - RunTask, 500]
 

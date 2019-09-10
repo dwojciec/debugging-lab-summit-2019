@@ -132,7 +132,8 @@ secure_mode: true
 
 Then, because the container you are going to debug has multiple processes, you need to specify to Squash which process we want to debug.
 
-In your {{ CHE_URL }}[Workspace^], via the Preference menu (Cmd+Comma (⌘,) on macOS or Ctrl+Comma (⌃,) on Windows and Linux), `*add the entry _"squash.processMatch": "^java"_*` as following
+In your {{ CHE_URL }}[Workspace^], via the Preference menu (Cmd+Comma (⌘,) on macOS or Ctrl+Comma (⌃,) on Windows and Linux), 
+`*add the entry _"squash.processMatch": pass:["^java*"]_*` as following
 
 image:{% image_path che-squashprocessmatch.png %}[Che - Open Squash ProcessMatch, 700]
 
@@ -156,8 +157,9 @@ In the window called **'>_ vscode-openshift-connector terminal'**, `*execute the
 ----
 $ oc set env dc/inventory JAVA_DEBUG=true
 $ oc get pods -lapp=inventory,deploymentconfig=inventory -w
-NAME                           READY     STATUS    RESTARTS   AGE
-inventory-2-l22lz              2/2       Running   2          1m
+NAME                           READY     STATUS         RESTARTS   AGE
+inventory-1-j4c2g              2/2       Terminating    0          33m
+inventory-2-l22lz              2/2       Running        2          1m
 
 <Ctrl+C>
 ----
@@ -259,7 +261,7 @@ public Inventory getAvailability(@PathParam("itemId") String itemId) {
 
 In your {{ CHE_URL }}[Workspace^], via the command menu (Cmd+Shift+P ⌘⇧P on macOS or Ctrl+Shift+P ⌃⇧P on Windows and Linux),
 
-`*run 'Task: Run Task...' ->  'che: Build and deploy Inventory Service'*`
+`*run 'Task: Run Task...' ->  'che: oc build inventory service'*`
 
 image:{% image_path che-runtask.png %}[Che - RunTask, 500]
 
