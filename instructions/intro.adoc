@@ -64,7 +64,7 @@ https://www.eclipse.org/che/[Eclipse Che^]  will provide you an out-of-box
 
 `*Click on the below button called 'Developer Workspace'*`
 
-[link={{ CHE_URL }}/f?url=https://github.com/mcouliba/debugging-workshop]
+[link={{ CHE_URL }}/dashboard/#/ide/{{ OPENSHIFT_USER }}/wksp-debugging]
 [window=_blank, align="center"]
 image::{% image_path developer-workspace-button.png  %}[Developer Workspace - Button, 300]
 
