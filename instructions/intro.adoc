@@ -64,13 +64,20 @@ https://www.eclipse.org/che/[Eclipse Che^]  will provide you an out-of-box
 
 `*Click on the below button called 'Developer Workspace'*`
 
-[link={{ CHE_URL }}/dashboard/#/ide/{{ OPENSHIFT_USER }}/wksp-debugging]
+[link={{ CHE_URL }}/f?url=https://github.com/mcouliba/debugging-workshop]
 [window=_blank, align="center"]
 image::{% image_path developer-workspace-button.png  %}[Developer Workspace - Button, 300]
 
 Then `*login with OAuth 'Openshift v4' as {{ OPENSHIFT_USER }}/{{ OPENSHIFT_PASSWORD }}*` and let's the magic happens...
 
 image:{% image_path che-openshift-oauth.png %}[Che - OpenShift OAuth, 500]
+
+[NOTE]
+====
+If asked, please `*click on 'Allow selected permissions'*`
+
+image:{% image_path che-openshift-authorize-access.png %}[Che - OpenShift OAuth Authorize Access,500]
+====
 
 Once completed, you will have a fully functional Browser-based IDE within the source code already imported.
 

@@ -32,12 +32,12 @@ https://www.kiali.io[Kiali^] includes https://www.jaegertracing.io[Jaeger Tracin
 
 === What are you hidding, Mr/Mrs *Application*?
 
-From the {{ KIALI_URL }}[Kiali Console^], `*click on the 'Distributed Tracing'*` in the left navigation and enter the following configuration:
-
 [IMPORTANT]
 ====
 Because of certificates issues, you need first to access the main {{ JAEGER_URL }}[Jaeger Console^] to use it through Kiali.
 ====
+
+From the {{ KIALI_URL }}[Kiali Console^], `*click on the 'Distributed Tracing'*` in the left navigation and enter the following configuration:
 
  * Select a Namespace: **{{ COOLSTORE_PROJECT }}**
  * Select a Service: **gateway**

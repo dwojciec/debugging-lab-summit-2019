@@ -113,24 +113,7 @@ values on the fly, and change these values during run time.
 
 In order to use Squash, you configure your workspace.
 
-First of all, you need to configure the VSCode Squash plugin to be used in https://squash.solo.io/secure_mode/[Secure Mode^] :
-it is designed to allow admins to apply regular Kubernetes RBAC configurations to Squash debugging activities.
-
-In your {{ CHE_URL }}[Workspace^], open a new Terminal with Squash tools by `*clicking 
-on the 'My Workspace' white box in the right menu, then 'Plugins' -> 'vscode-squash' -> '>_ New terminal'*`:
-
-image:{% image_path che-open-squash-terminal.png %}[Che - Open Squash Terminal, 700]
-
-In the window called **'>_ vscode-squash terminal'**, `*update the '~/.squash/config.yaml' file as following*`:
-
-[source,shell]
-.~/.squash/config.yaml
-----
-# Squash config file
-secure_mode: true
-----
-
-Then, because the container you are going to debug has multiple processes, you need to specify to Squash which process we want to debug.
+Because the container you are going to debug has multiple processes, you need to specify to Squash which process we want to debug.
 
 In your {{ CHE_URL }}[Workspace^], via the Preference menu (Cmd+Comma (⌘,) on macOS or Ctrl+Comma (⌃,) on Windows and Linux), 
 `*add the entry _"squash.processMatch": pass:["^java*"]_*` as following
