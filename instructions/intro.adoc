@@ -173,8 +173,8 @@ which will list all pods that you have running as part of your project.
 Once successfully built, deployed and runned on Openshift, **6 pods** of your application should be **Running and Ready** 
 and **10 pods or more completed** as following:
 
-image:{% image_path openshift-console-pods-1.png%}[Openshift Console, 700]
-image:{% image_path openshift-console-pods-2.png%}[Openshift Console, 700]
+image:{% image_path openshift-console-pods-1.png %}[Openshift Console, 700]
+image:{% image_path openshift-console-pods-2.png %}[Openshift Console, 700]
 
 `*Point your browser at the following application URL, http://{{ COOLSTORE_PROJECT }}.{{ APPS_HOSTNAME_SUFFIX }}[http://{{ COOLSTORE_PROJECT }}.{{ APPS_HOSTNAME_SUFFIX }}^]*`. 
 You should be able to see the Mysterious Application up and running.
