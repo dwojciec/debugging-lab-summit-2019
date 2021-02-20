@@ -95,6 +95,8 @@ Once completed, you will have a fully functional Browser-based IDE within the so
 image:{% image_path che-workspace.png %}[Che - Workspace, 800]
 
 '''
+*Note* : This feature is similar to the https://github.com/GoogleCloudPlatform/cloud-run-button[Google Cloud Run Button^].  Eclipse 7 has this https://www.eclipse.org/che/docs/che-7/making-a-workspace-portable-using-a-devfile/#starting-a-workspace-with-a-devfile_making-a-workspace-portable-using-a-devfile[functionnality^] and We have also made https://www.eclipse.org/che/docs/che-7/importing-a-kubernetes-application-into-a-che-workspace/[ importing kubernetes applications^] easier too
+
 
 === Connect Your Workspace to Your OpenShift User
 
